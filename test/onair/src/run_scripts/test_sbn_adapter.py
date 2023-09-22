@@ -11,6 +11,7 @@ import pytest
 from mock import MagicMock, PropertyMock
 
 import onair.src.run_scripts.sbn_adapter as sbn_adapter
+from onair.src.run_scripts.sbn_adapter import AdapterDataSource
 
 from importlib import reload
 import sys
@@ -22,6 +23,7 @@ def setup_teardown():
     
     print('setup')
     
+    pytest.cut = AdapterDataSource.__new__(AdapterDataSource)
     yield 'setup_teardown'
 
     print('teardown')
@@ -633,3 +635,84 @@ def test_sbn_adapter_AdapterDataSource_has_more_returns_true(setup_teardown):
 
     # Assert
     assert result == True
+
+# sbn_adapter parse_config_data tests
+# TODO: parse_meta_data_file implementation is common between sbn_adapter and csv_parser
+def test_sbn_adapter_parse_meta_data_file_returns_call_to_extract_meta_data_file_given_metadata_file_when_given_ss_breakdown_does_not_resolve_to_False(mocker, setup_teardown):
+    # Arrange
+    AdapterDataSource = sbn_adapter.AdapterDataSource
+    cut = AdapterDataSource.__new__(AdapterDataSource)
+
+    arg_configFile = MagicMock()
+    arg_ss_breakdown = True if pytest.gen.randint(0, 1) else MagicMock()
+
+    expected_result = MagicMock()
+
+    mocker.patch(sbn_adapter.__name__ + '.extract_meta_data', return_value=expected_result)
+    mocker.patch(sbn_adapter.__name__ + '.len')
+
+    # Act
+    result = cut.parse_meta_data_file(arg_configFile, arg_ss_breakdown)
+
+    assert(False)
+    # Assert
+    assert sbn_adapter.extract_meta_data.call_count == 1
+    assert sbn_adapter.extract_meta_data.call_args_list[0].args == (arg_configFile, )
+    assert sbn_adapter.len.call_count == 0
+    assert result == expected_result
+
+def test_sbn_adapter_parse_meta_data_file_returns_call_to_extract_meta_data_file_given_metadata_file_set_to_empty_list_when_len_of_call_value_dict_def_of_subsystem_assigments_when_given_ss_breakdown_evaluates_to_False(mocker, setup_teardown):
+    # Arrange
+    arg_configFile = MagicMock()
+    arg_ss_breakdown = False if pytest.gen.randint(0, 1) else 0
+
+    forced_return_extract_meta_data = {}
+    forced_return_len = 0
+    fake_empty_processed_filepath = MagicMock()
+    forced_return_extract_meta_data['subsystem_assignments'] = fake_empty_processed_filepath
+
+    expected_result = []
+
+    mocker.patch(sbn_adapter.__name__ + '.extract_meta_data', return_value=forced_return_extract_meta_data)
+    mocker.patch(sbn_adapter.__name__ + '.len', return_value=forced_return_len)
+
+    # Act
+    result = pytest.cut.parse_meta_data_file(arg_configFile, arg_ss_breakdown)
+
+    # Assert
+    assert sbn_adapter.extract_meta_data.call_count == 1
+    assert sbn_adapter.extract_meta_data.call_args_list[0].args == (arg_configFile, )
+    assert sbn_adapter.len.call_count == 1
+    assert sbn_adapter.len.call_args_list[0].args == (fake_empty_processed_filepath, )
+    assert result['subsystem_assignments'] == expected_result
+
+def test_sbn_adapter_parse_meta_data_file_returns_call_to_extract_meta_data_given_metadata_file__with_dict_def_subsystem_assignments_def_of_call_set_to_single_item_list_str_MISSION_for_each_item_when_given_ss_breakdown_evaluates_to_False(mocker, setup_teardown):
+    # Arrange
+    arg_configFile = MagicMock()
+    arg_ss_breakdown = False if pytest.gen.randint(0, 1) else 0
+
+    forced_return_extract_meta_data = {}
+    forced_return_process_filepath = MagicMock()
+    fake_processed_filepath = []
+    num_fake_processed_filepaths = pytest.gen.randint(1,10) # arbitrary, from 1 to 10 (0 has own test)
+    for i in range(num_fake_processed_filepaths):
+        fake_processed_filepath.append(i)
+    forced_return_extract_meta_data['subsystem_assignments'] = fake_processed_filepath
+    forced_return_len = num_fake_processed_filepaths
+
+    expected_result = []
+    for i in range(num_fake_processed_filepaths):
+        expected_result.append(['MISSION'])
+
+    mocker.patch(sbn_adapter.__name__ + '.extract_meta_data', return_value=forced_return_extract_meta_data)
+    mocker.patch(sbn_adapter.__name__ + '.len', return_value=forced_return_len)
+
+    # Act
+    result = pytest.cut.parse_meta_data_file(arg_configFile, arg_ss_breakdown)
+
+    # Assert
+    assert sbn_adapter.extract_meta_data.call_count == 1
+    assert sbn_adapter.extract_meta_data.call_args_list[0].args == (arg_configFile, )
+    assert sbn_adapter.len.call_count == 1
+    assert sbn_adapter.len.call_args_list[0].args == (fake_processed_filepath, )
+    assert result['subsystem_assignments'] == expected_result

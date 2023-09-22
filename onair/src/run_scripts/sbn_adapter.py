@@ -23,6 +23,8 @@ from ctypes import *
 import sbn_client as sbn
 import message_headers as msg_hdr
 
+from ...data_handling.parser_util import *
+
 # Note: The double buffer does not clear between switching. If fresh data doesn't come in, stale data is returned (delayed by 1 frame)
 
 # msgID_lookup_table format { msgID : [ "<APP NAME>" , msg_hdr.<data struct in message_headers.py> , "<data category>" ] }
@@ -78,6 +80,7 @@ def get_current_data(recv_msg, data_struct, app_name):
 class AdapterDataSource(OnAirDataSource):
     # Data structure
     # TODO: Make init data structure better
+    # TODO: This should be in an __init__ function
     currentData = []
 
     for x in range(0,2):
@@ -122,6 +125,18 @@ class AdapterDataSource(OnAirDataSource):
                 sbn.subscribe(mID)
         else:
             sbn.subscribe(msgid)
+
+    # TODO: Same as csv_parser, may move to parser_utils
+    def parse_meta_data_file(self, meta_data_file, ss_breakdown):
+        print("HOOOOLLLLLLAAAA!")
+        parsed_meta_data = extract_meta_data(meta_data_file)
+        if ss_breakdown == False:
+            num_elements = len(parsed_meta_data['subsystem_assignments'])
+            parsed_meta_data['subsystem_assignments'] = [['MISSION'] for elem in range(num_elements)]
+        return parsed_meta_data
+
+    def process_data_file(self, data_file):
+        pass # Nothing to do since telemetry is live
 
     def get_next(self):
         """Provides the latest data from SBN in a dictionary of lists structure.
