@@ -50,7 +50,7 @@ def test_LearnersInterface__init__sets_self_headers_to_given_headers_and_sets_se
     # Assert
     assert cut.headers == arg_headers
     assert learners_interface.import_plugins.call_count == 1
-    assert learners_interface.import_plugins.call_args_list[0].args == (arg_headers, arg__learner_plugins)
+    assert learners_interface.import_plugins.call_args_list[0][0] == (arg_headers, arg__learner_plugins)
     assert cut.ai_constructs == forced_return_ai_constructs
 
 # update tests
@@ -86,7 +86,7 @@ def test_LearnersInterface_update_calls_update_with_given_low_level_data_on_each
     # Assert
     for i in range(num_fake_ai_constructs):
         assert cut.ai_constructs[i].update.call_count == 1
-        assert cut.ai_constructs[i].update.call_args_list[0].args == (arg_low_level_data, )
+        assert cut.ai_constructs[i].update.call_args_list[0][0] == (arg_low_level_data, )
 
 # check_for_salient_event
 def test_LearnersInterface_salient_event_does_nothing():
@@ -133,5 +133,5 @@ def test_LearnersInterface_render_reasoning_returns_dict_of_each_ai_construct_as
     # Assert
     for i in range(num_fake_ai_constructs):
         assert cut.ai_constructs[i].render_reasoning.call_count == 1
-        assert cut.ai_constructs[i].render_reasoning.call_args_list[0].args == ()
+        assert cut.ai_constructs[i].render_reasoning.call_args_list[0][0] == ()
     assert result == expected_result

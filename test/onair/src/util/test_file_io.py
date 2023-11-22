@@ -36,7 +36,7 @@ def test_file_io_parse_associations_raises_KeyError_when_loaded_data_does_not_ha
   assert str(e_info.value) == "'children'"
   assert file_io.open.call_count == 1
   assert file_io.json.load.call_count == 1
-  assert file_io.json.load.call_args_list[0].args == (fake_file_iterator,)
+  assert file_io.json.load.call_args_list[0][0] == (fake_file_iterator,)
   assert file_io.print.call_count == 0
 
 def test_file_io_parse_associations_does_not_print_when_loaded_data_children_is_empty(mocker):
@@ -59,7 +59,7 @@ def test_file_io_parse_associations_does_not_print_when_loaded_data_children_is_
   # Assert
   assert file_io.open.call_count == 1
   assert file_io.json.load.call_count == 1
-  assert file_io.json.load.call_args_list[0].args == (fake_file_iterator,)
+  assert file_io.json.load.call_args_list[0][0] == (fake_file_iterator,)
   assert file_io.print.call_count == 0
 
 def test_file_io_parse_associations_raises_KeyError_when_loaded_data_child_missing_name(mocker):
@@ -84,7 +84,7 @@ def test_file_io_parse_associations_raises_KeyError_when_loaded_data_child_missi
   assert str(e_info.value) == "'name'"
   assert file_io.open.call_count == 1
   assert file_io.json.load.call_count == 1
-  assert file_io.json.load.call_args_list[0].args == (fake_file_iterator,)
+  assert file_io.json.load.call_args_list[0][0] == (fake_file_iterator,)
   assert file_io.print.call_count == 0
 
 def test_file_io_parse_associations_raises_KeyError_when_loaded_data_child_missing_connections(mocker):
@@ -109,7 +109,7 @@ def test_file_io_parse_associations_raises_KeyError_when_loaded_data_child_missi
   assert str(e_info.value) == "'connections'"
   assert file_io.open.call_count == 1
   assert file_io.json.load.call_count == 1
-  assert file_io.json.load.call_args_list[0].args == (fake_file_iterator,)
+  assert file_io.json.load.call_args_list[0][0] == (fake_file_iterator,)
   assert file_io.print.call_count == 0
 
 def test_file_io_parse_associations_does_not_print_when_loaded_data_child_conections_are_empty(mocker):
@@ -132,7 +132,7 @@ def test_file_io_parse_associations_does_not_print_when_loaded_data_child_conect
   # Assert
   assert file_io.open.call_count == 1
   assert file_io.json.load.call_count == 1
-  assert file_io.json.load.call_args_list[0].args == (fake_file_iterator,)
+  assert file_io.json.load.call_args_list[0][0] == (fake_file_iterator,)
   assert file_io.print.call_count == 0
 
 def test_file_io_parse_associations_raises_KeyError_when_loaded_data_child_connections_missing_target(mocker):
@@ -157,7 +157,7 @@ def test_file_io_parse_associations_raises_KeyError_when_loaded_data_child_conne
   assert str(e_info.value) == "'target'"
   assert file_io.open.call_count == 1
   assert file_io.json.load.call_count == 1
-  assert file_io.json.load.call_args_list[0].args == (fake_file_iterator,)
+  assert file_io.json.load.call_args_list[0][0] == (fake_file_iterator,)
   assert file_io.print.call_count == 0
 
 def test_file_io_parse_associations_raises_KeyError_when_loaded_data_child_connections_missing_weight(mocker):
@@ -182,7 +182,7 @@ def test_file_io_parse_associations_raises_KeyError_when_loaded_data_child_conne
   assert str(e_info.value) == "'weight'"
   assert file_io.open.call_count == 1
   assert file_io.json.load.call_count == 1
-  assert file_io.json.load.call_args_list[0].args == (fake_file_iterator,)
+  assert file_io.json.load.call_args_list[0][0] == (fake_file_iterator,)
   assert file_io.print.call_count == 0
 
 def test_file_io_parse_associations_prints_associations_in_reverse_sort_by_weight_when_data_is_properly_formed(mocker):
@@ -225,10 +225,10 @@ def test_file_io_parse_associations_prints_associations_in_reverse_sort_by_weigh
   # Assert
   assert file_io.open.call_count == 1
   assert file_io.json.load.call_count == 1
-  assert file_io.json.load.call_args_list[0].args == (fake_file_iterator,)
+  assert file_io.json.load.call_args_list[0][0] == (fake_file_iterator,)
   assert file_io.print.call_count == total_num_connections
   for i in range(total_num_connections):
-    assert file_io.print.call_args_list[i].args == (expected_prints[i],)
+    assert file_io.print.call_args_list[i][0] == (expected_prints[i],)
 
 # aggregate_results tests
 

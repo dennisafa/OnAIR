@@ -60,15 +60,21 @@ def test_CSV_parse_csv_data_returns_empty_list_when_parsed_dataset_from_given_da
 
     # Act
     result = pytest.cut.parse_csv_data(arg_dataFile)
+    print(csv_parser.pd.read_csv.call_args_list[0][0])
+    print(csv_parser.pd.read_csv.call_args)
+
+    print(csv_parser.pd.read_csv.call_args_list[0][0])
+    print(csv_parser.pd.read_csv.call_args_list[0][1])
+    print((arg_dataFile, ))
 
     # Assert
     assert csv_parser.pd.read_csv.call_count == 1
-    assert csv_parser.pd.read_csv.call_args_list[0].args == (arg_dataFile, )
-    assert csv_parser.pd.read_csv.call_args_list[0].kwargs == {'delimiter':',', 'header':0, 'dtype':str}
+    assert csv_parser.pd.read_csv.call_args_list[0][0] == (arg_dataFile, )
+    assert csv_parser.pd.read_csv.call_args_list[0][1] == {'delimiter':',', 'header':0, 'dtype':str}
     assert fake_columns_str.contains.call_count == 1
-    assert fake_columns_str.contains.call_args_list[0].args == ('^Unnamed', )
-    assert fake_initial_data_set.loc.__getitem__.call_args_list[0].args[0][0] == slice(None, None, None)
-    assert fake_initial_data_set.loc.__getitem__.call_args_list[0].args[0][1] == ~forced_return_contains
+    assert fake_columns_str.contains.call_args_list[0][0] == ('^Unnamed', )
+    assert fake_initial_data_set.loc.__getitem__.call_args_list[0][0][0][0] == slice(None, None, None)
+    assert fake_initial_data_set.loc.__getitem__.call_args_list[0][0][0][1] == ~forced_return_contains
     assert result == expected_result
 
 def test_CSV_parse_csv_data_returns_list_of_row_values_when_parsed_dataset_from_given_dataFile_call_to_iterrows_returns_iterator(mocker, setup_teardown):
@@ -109,10 +115,10 @@ def test_CSV_parse_csv_data_returns_list_of_row_values_when_parsed_dataset_from_
 
     # Assert
     assert csv_parser.pd.read_csv.call_count == 1
-    assert csv_parser.pd.read_csv.call_args_list[0].args == (arg_dataFile, )
-    assert csv_parser.pd.read_csv.call_args_list[0].kwargs == {'delimiter':',', 'header':0, 'dtype':str}
+    assert csv_parser.pd.read_csv.call_args_list[0][0] == (arg_dataFile, )
+    assert csv_parser.pd.read_csv.call_args_list[0][1] == {'delimiter':',', 'header':0, 'dtype':str}
     assert fake_columns_str.contains.call_count == 1
-    assert fake_columns_str.contains.call_args_list[0].args == ('^Unnamed', )
+    assert fake_columns_str.contains.call_args_list[0][0] == ('^Unnamed', )
     assert result == expected_result
 
 def test_CSV_parse_csv_data_returns_list_of_data_frames_call_to_iterrows_returns_iterator_and_column_names_exist(mocker, setup_teardown):
@@ -155,10 +161,10 @@ def test_CSV_parse_csv_data_returns_list_of_data_frames_call_to_iterrows_returns
 
     # Assert
     assert csv_parser.pd.read_csv.call_count == 1
-    assert csv_parser.pd.read_csv.call_args_list[0].args == (arg_dataFile, )
-    assert csv_parser.pd.read_csv.call_args_list[0].kwargs == {'delimiter':',', 'header':0, 'dtype':str}
+    assert csv_parser.pd.read_csv.call_args_list[0][0] == (arg_dataFile, )
+    assert csv_parser.pd.read_csv.call_args_list[0][1] == {'delimiter':',', 'header':0, 'dtype':str}
     assert fake_columns_str.contains.call_count == 1
-    assert fake_columns_str.contains.call_args_list[0].args == ('^Unnamed', )
+    assert fake_columns_str.contains.call_args_list[0][0] == ('^Unnamed', )
     assert result == expected_result
 
 # CSV parse_meta_data tests
@@ -177,7 +183,7 @@ def test_CSV_parse_meta_data_file_returns_call_to_extract_meta_data_handle_ss_br
 
     # Assert
     assert csv_parser.extract_meta_data_handle_ss_breakdown.call_count == 1
-    assert csv_parser.extract_meta_data_handle_ss_breakdown.call_args_list[0].args == (arg_configFile, arg_ss_breakdown, )
+    assert csv_parser.extract_meta_data_handle_ss_breakdown.call_args_list[0][0] == (arg_configFile, arg_ss_breakdown, )
     assert csv_parser.len.call_count == 0
     assert result == expected_result
 

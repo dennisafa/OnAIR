@@ -45,21 +45,21 @@ def test_Agent__init__sets_vehicle_rep_to_given_vehicle_and_learning_systems_and
     # Assert
     assert cut.vehicle_rep == arg_vehicle
     assert arg_vehicle.get_headers.call_count == 3
-    assert arg_vehicle.get_headers.call_args_list[0].args == ()
+    assert arg_vehicle.get_headers.call_args_list[0][0] == ()
     assert agent.LearnersInterface.call_count == 1
-    assert agent.LearnersInterface.call_args_list[0].args == (fake_headers, arg_learners_plugin_dict)
+    assert agent.LearnersInterface.call_args_list[0][0] == (fake_headers, arg_learners_plugin_dict)
     assert cut.learning_systems == fake_learning_systems
     assert agent.PlannersInterface.call_count == 1
-    assert agent.PlannersInterface.call_args_list[0].args == (fake_headers, arg_planners_plugin_dict)
+    assert agent.PlannersInterface.call_args_list[0][0] == (fake_headers, arg_planners_plugin_dict)
     assert cut.planning_systems == fake_planning_systems
     assert agent.ComplexReasoningInterface.call_count == 1
-    assert agent.ComplexReasoningInterface.call_args_list[0].args == (fake_headers, arg_complex_plugin_dict)
+    assert agent.ComplexReasoningInterface.call_args_list[0][0] == (fake_headers, arg_complex_plugin_dict)
     assert cut.complex_reasoning_systems == fake_complex_systems
     assert arg_vehicle.get_status.call_count == 1
-    assert arg_vehicle.get_status.call_args_list[0].args == ()
+    assert arg_vehicle.get_status.call_args_list[0][0] == ()
     assert cut.mission_status == fake_mission_status
     assert arg_vehicle.get_bayesian_status.call_count == 1
-    assert arg_vehicle.get_bayesian_status.call_args_list[0].args == ()
+    assert arg_vehicle.get_bayesian_status.call_args_list[0][0] == ()
     assert cut.bayesian_status == fake_bayesian_status
 
 # render_resoning tests
@@ -130,13 +130,13 @@ def test_Agent_reason_updates_vehicle_rep_with_given_frame_and_updates_learning_
         mocker.call.cut.complex_reasoning_systems.update(expected_aggregate_high_level_info),
     ], any_order=False)
     assert cut.vehicle_rep.get_state_information.call_count == 3
-    assert cut.vehicle_rep.get_state_information.call_args_list[0].args == ()
-    assert cut.vehicle_rep.get_state_information.call_args_list[1].args == ()
-    assert cut.vehicle_rep.get_state_information.call_args_list[2].args == ()
+    assert cut.vehicle_rep.get_state_information.call_args_list[0][0] == ()
+    assert cut.vehicle_rep.get_state_information.call_args_list[1][0] == ()
+    assert cut.vehicle_rep.get_state_information.call_args_list[2][0] == ()
     assert cut.learning_systems.render_reasoning.call_count == 1
-    assert cut.learning_systems.render_reasoning.call_args_list[0].args == ()
+    assert cut.learning_systems.render_reasoning.call_args_list[0][0] == ()
     assert cut.planning_systems.render_reasoning.call_count == 1
-    assert cut.planning_systems.render_reasoning.call_args_list[0].args == ()
+    assert cut.planning_systems.render_reasoning.call_args_list[0][0] == ()
 
      
 # diagnose tests

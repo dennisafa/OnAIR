@@ -27,7 +27,7 @@ def test_data_conversion_status_to_oneHot_returns_given_status_when_status_isins
 
     # Assert
     assert data_conversion.isinstance.call_count == 1
-    assert data_conversion.isinstance.call_args_list[0].args == (arg_status, ndarray)
+    assert data_conversion.isinstance.call_args_list[0][0] == (arg_status, ndarray)
     assert result == arg_status
 
 def test_data_conversion_status_to_oneHot_returns_one_hot_set_to_list_of_four_zeros_and_the_value_of_the_classes_status_to_1_point_0(mocker):

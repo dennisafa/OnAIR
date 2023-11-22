@@ -74,9 +74,9 @@ def test_ExecutionEngine__init__does_calls_when_config_file_is_an_occupied_strin
     # Assert
     assert cut.init_save_paths.call_count == 1
     assert cut.parse_configs.call_count == 1
-    assert cut.parse_configs.call_args_list[0].args == (arg_config_file, )
+    assert cut.parse_configs.call_args_list[0][0] == (arg_config_file, )
     assert cut.parse_data.call_count == 1
-    assert cut.parse_data.call_args_list[0].args == (cut.parser_file_name, cut.dataFilePath, cut.metadataFilePath, )
+    assert cut.parse_data.call_args_list[0][0] == (cut.parser_file_name, cut.dataFilePath, cut.metadataFilePath, )
     assert cut.setup_sim.call_count == 1
 
 def test_ExecutionEngine__init__accepts_no_arguments_using_defaults_instead_with_config_file_default_as_empty_string(mocker):
@@ -285,11 +285,11 @@ def test_ExecutionEngine_parse_configs_sets_all_items_without_error(mocker):
     assert cut.planners_plugin_dict == fake_planners_plugin_list
     assert cut.complex_plugin_dict == fake_complex_plugin_list
     assert fake_run_flags.getboolean.call_count == 3
-    assert fake_run_flags.getboolean.call_args_list[0].args == ('IO_Flag', )
+    assert fake_run_flags.getboolean.call_args_list[0][0] == ('IO_Flag', )
     assert cut.IO_Flag == fake_IO_flags
-    assert fake_run_flags.getboolean.call_args_list[1].args == ('Dev_Flag', )
+    assert fake_run_flags.getboolean.call_args_list[1][0] == ('Dev_Flag', )
     assert cut.Dev_Flag == fake_Dev_flags
-    assert fake_run_flags.getboolean.call_args_list[2].args == ('Viz_Flag', )
+    assert fake_run_flags.getboolean.call_args_list[2][0] == ('Viz_Flag', )
     assert cut.Viz_Flag == fake_Viz_flags
 
 def test_ExecutionEngine_parse_configs_bypasses_benchmarks_when_access_raises_error(mocker):
@@ -375,9 +375,9 @@ def test_ExecutionEngine_parse_plugins_list_raises_ValueError_when_config_plugin
     # Assert
     assert e_info.match(f"Plugin dict {arg_config_plugin_dict} from {fake_config_filepath} is invalid. It must be a dict.")
     assert cut.ast_parse_eval.call_count == 1
-    assert cut.ast_parse_eval.call_args_list[0].args == (arg_config_plugin_dict,)
+    assert cut.ast_parse_eval.call_args_list[0][0] == (arg_config_plugin_dict,)
     assert execution_engine.isinstance.call_count == 1
-    assert execution_engine.isinstance.call_args_list[0].args == (fake_plugin_dict.body, execution_engine.ast.Dict, )
+    assert execution_engine.isinstance.call_args_list[0][0] == (fake_plugin_dict.body, execution_engine.ast.Dict, )
 
 def test_ExecutionEngine_parse_plugins_list_raises_FileNotFoundError_when_single_config_plugin_dict_key_maps_to_non_existing_file(mocker):
     # Arrange
@@ -408,15 +408,15 @@ def test_ExecutionEngine_parse_plugins_list_raises_FileNotFoundError_when_single
     # Assert
     assert e_info.match(f"In config file '{fake_config_filepath}' Plugin path '{fake_path}' does not exist.")
     assert cut.ast_parse_eval.call_count == 1
-    assert cut.ast_parse_eval.call_args_list[0].args == (arg_config_plugin_dict,)
+    assert cut.ast_parse_eval.call_args_list[0][0] == (arg_config_plugin_dict,)
     assert execution_engine.isinstance.call_count == 1
-    assert execution_engine.isinstance.call_args_list[0].args == (fake_plugin_dict.body, execution_engine.ast.Dict, )
+    assert execution_engine.isinstance.call_args_list[0][0] == (fake_plugin_dict.body, execution_engine.ast.Dict, )
     assert execution_engine.ast.literal_eval.call_count == 1
-    assert execution_engine.ast.literal_eval.call_args_list[0].args == (arg_config_plugin_dict, )
+    assert execution_engine.ast.literal_eval.call_args_list[0][0] == (arg_config_plugin_dict, )
     assert fake_temp_plugin_dict.values.call_count == 1
-    assert fake_temp_plugin_dict.values.call_args_list[0].args == ()
+    assert fake_temp_plugin_dict.values.call_args_list[0][0] == ()
     assert execution_engine.os.path.exists.call_count == 1
-    assert execution_engine.os.path.exists.call_args_list[0].args == (fake_path, )
+    assert execution_engine.os.path.exists.call_args_list[0][0] == (fake_path, )
 
 def test_ExecutionEngine_parse_plugins_list_raises_FileNotFoundError_when_any_config_plugin_dict_key_maps_to_non_existing_file(mocker):
     # Arrange
@@ -452,16 +452,16 @@ def test_ExecutionEngine_parse_plugins_list_raises_FileNotFoundError_when_any_co
     # Assert
     assert e_info.match(f"In config file '{fake_config_filepath}' Plugin path '{fake_path}' does not exist.")
     assert cut.ast_parse_eval.call_count == 1
-    assert cut.ast_parse_eval.call_args_list[0].args == (arg_config_plugin_dict,)
+    assert cut.ast_parse_eval.call_args_list[0][0] == (arg_config_plugin_dict,)
     assert execution_engine.isinstance.call_count == 1
-    assert execution_engine.isinstance.call_args_list[0].args == (fake_plugin_dict.body, execution_engine.ast.Dict, )
+    assert execution_engine.isinstance.call_args_list[0][0] == (fake_plugin_dict.body, execution_engine.ast.Dict, )
     assert execution_engine.ast.literal_eval.call_count == 1
-    assert execution_engine.ast.literal_eval.call_args_list[0].args == (arg_config_plugin_dict, )
+    assert execution_engine.ast.literal_eval.call_args_list[0][0] == (arg_config_plugin_dict, )
     assert fake_temp_plugin_dict.values.call_count == 1
-    assert fake_temp_plugin_dict.values.call_args_list[0].args == ()
+    assert fake_temp_plugin_dict.values.call_args_list[0][0] == ()
     assert execution_engine.os.path.exists.call_count == len(exists_side_effects)
     for i in range(len(exists_side_effects)):
-        assert execution_engine.os.path.exists.call_args_list[i].args == (fake_path, )
+        assert execution_engine.os.path.exists.call_args_list[i][0] == (fake_path, )
 
 def test_ExecutionEngine_returns_empty_dict_when_config_dict_is_empty(mocker):
     # Arrange
@@ -485,11 +485,11 @@ def test_ExecutionEngine_returns_empty_dict_when_config_dict_is_empty(mocker):
     # Assert
     assert result == {}
     assert cut.ast_parse_eval.call_count == 1
-    assert cut.ast_parse_eval.call_args_list[0].args == (arg_config_plugin_dict,)
+    assert cut.ast_parse_eval.call_args_list[0][0] == (arg_config_plugin_dict,)
     assert execution_engine.isinstance.call_count == 1
-    assert execution_engine.isinstance.call_args_list[0].args == (fake_plugin_dict.body, execution_engine.ast.Dict, )
+    assert execution_engine.isinstance.call_args_list[0][0] == (fake_plugin_dict.body, execution_engine.ast.Dict, )
     assert execution_engine.ast.literal_eval.call_count == 1
-    assert execution_engine.ast.literal_eval.call_args_list[0].args == (arg_config_plugin_dict, )
+    assert execution_engine.ast.literal_eval.call_args_list[0][0] == (arg_config_plugin_dict, )
 
 def test_ExecutionEngine_returns_expected_dict_when_all_mapped_files_exist(mocker):
     # Arrange
@@ -521,16 +521,16 @@ def test_ExecutionEngine_returns_expected_dict_when_all_mapped_files_exist(mocke
     # Assert
     assert result == fake_temp_plugin_dict
     assert cut.ast_parse_eval.call_count == 1
-    assert cut.ast_parse_eval.call_args_list[0].args == (arg_config_plugin_dict,)
+    assert cut.ast_parse_eval.call_args_list[0][0] == (arg_config_plugin_dict,)
     assert execution_engine.isinstance.call_count == 1
-    assert execution_engine.isinstance.call_args_list[0].args == (fake_plugin_dict.body, execution_engine.ast.Dict, )
+    assert execution_engine.isinstance.call_args_list[0][0] == (fake_plugin_dict.body, execution_engine.ast.Dict, )
     assert execution_engine.ast.literal_eval.call_count == 1
-    assert execution_engine.ast.literal_eval.call_args_list[0].args == (arg_config_plugin_dict, )
+    assert execution_engine.ast.literal_eval.call_args_list[0][0] == (arg_config_plugin_dict, )
     assert fake_temp_plugin_dict.values.call_count == 1
-    assert fake_temp_plugin_dict.values.call_args_list[0].args == ()
+    assert fake_temp_plugin_dict.values.call_args_list[0][0] == ()
     assert execution_engine.os.path.exists.call_count == len(exists_side_effects)
     for i in range(len(exists_side_effects)):
-        assert execution_engine.os.path.exists.call_args_list[i].args == (fake_path, )
+        assert execution_engine.os.path.exists.call_args_list[i][0] == (fake_path, )
 
 # parse_data tests
 def test_ExecutionEngine_parse_data_sets_the_simDataSource_to_a_new_data_source_module_DataSource(mocker):
@@ -556,12 +556,12 @@ def test_ExecutionEngine_parse_data_sets_the_simDataSource_to_a_new_data_source_
 
     # Assert
     assert execution_engine.importlib.util.spec_from_file_location.call_count == 1
-    assert execution_engine.importlib.util.spec_from_file_location.call_args_list[0].args == ('data_source', arg_parser_file_name, )
+    assert execution_engine.importlib.util.spec_from_file_location.call_args_list[0][0] == ('data_source', arg_parser_file_name, )
     assert execution_engine.importlib.util.module_from_spec.call_count == 1
-    assert execution_engine.importlib.util.module_from_spec.call_args_list[0].args == (fake_spec, )
+    assert execution_engine.importlib.util.module_from_spec.call_args_list[0][0] == (fake_spec, )
     assert fake_spec.loader.exec_module.call_count == 1
     assert fake_module.DataSource.call_count == 1
-    assert fake_module.DataSource.call_args_list[0].args == (arg_dataFile, arg_metadataFile, arg_subsystems_breakdown, )
+    assert fake_module.DataSource.call_args_list[0][0] == (arg_dataFile, arg_metadataFile, arg_subsystems_breakdown, )
     assert cut.simDataSource == fake_parser_class_instance
 
 def test_ExecutionEngine_parse_data_argument_subsystems_breakdown_optional_default_is_False(mocker):
@@ -596,7 +596,7 @@ def test_ExecutionEngine_parse_data_argument_subsystems_breakdown_optional_defau
 
     # Assert
     assert fake_module.DataSource.call_count == 1
-    assert fake_module.DataSource.call_args_list[0].args == (arg_dataFile, arg_metadataFile, False, )
+    assert fake_module.DataSource.call_args_list[0][0] == (arg_dataFile, arg_metadataFile, False, )
 
 # setup_sim tests
 def test_ExecutionEngine_setup_sim_sets_self_sim_to_new_Simulator_and_sets_benchmark_data_when_no_exceptions_are_encountered(mocker):
@@ -630,21 +630,21 @@ def test_ExecutionEngine_setup_sim_sets_self_sim_to_new_Simulator_and_sets_bench
 
     # Assert
     assert execution_engine.Simulator.call_count == 1
-    assert execution_engine.Simulator.call_args_list[0].args == (cut.simDataSource,
+    assert execution_engine.Simulator.call_args_list[0][0] == (cut.simDataSource,
                                                                  cut.knowledge_rep_plugin_dict,
                                                                  cut.learners_plugin_dict,
                                                                  cut.planners_plugin_dict,
                                                                  cut.complex_plugin_dict)
     assert cut.sim == fake_sim
     assert execution_engine.ast.literal_eval.call_count == 2
-    assert execution_engine.ast.literal_eval.call_args_list[0].args == (cut.benchmarkFiles, )
+    assert execution_engine.ast.literal_eval.call_args_list[0][0] == (cut.benchmarkFiles, )
     assert execution_engine.os.path.realpath.call_count == 1
-    assert execution_engine.os.path.realpath.call_args_list[0].args == (fake__file__, )
+    assert execution_engine.os.path.realpath.call_args_list[0][0] == (fake__file__, )
     assert execution_engine.os.path.dirname.call_count == 1
-    assert execution_engine.os.path.dirname.call_args_list[0].args == (fake_fp, )
-    assert execution_engine.ast.literal_eval.call_args_list[1].args == (cut.benchmarkIndices, )
+    assert execution_engine.os.path.dirname.call_args_list[0][0] == (fake_fp, )
+    assert execution_engine.ast.literal_eval.call_args_list[1][0] == (cut.benchmarkIndices, )
     assert fake_sim.set_benchmark_data.call_count == 1
-    assert fake_sim.set_benchmark_data.call_args_list[0].args == (fake_fp + '/../..' + cut.benchmarkFilePath, fake_fls, fake_bi, )
+    assert fake_sim.set_benchmark_data.call_args_list[0][0] == (fake_fp + '/../..' + cut.benchmarkFilePath, fake_fls, fake_bi, )
 
 def test_ExecutionEngine_setup_sim_sets_self_sim_to_new_Simulator_but_does_not_set_bencmark_data_because_exception_is_encountered(mocker):
     # Arrange
@@ -672,14 +672,14 @@ def test_ExecutionEngine_setup_sim_sets_self_sim_to_new_Simulator_but_does_not_s
 
     # Assert
     assert execution_engine.Simulator.call_count == 1
-    assert execution_engine.Simulator.call_args_list[0].args == (cut.simDataSource,
+    assert execution_engine.Simulator.call_args_list[0][0] == (cut.simDataSource,
                                                                  cut.knowledge_rep_plugin_dict,
                                                                  cut.learners_plugin_dict,
                                                                  cut.planners_plugin_dict,
                                                                  cut.complex_plugin_dict)
     assert cut.sim == fake_sim
     assert execution_engine.ast.literal_eval.call_count == 1
-    assert execution_engine.ast.literal_eval.call_args_list[0].args == (cut.benchmarkFiles, )
+    assert execution_engine.ast.literal_eval.call_args_list[0][0] == (cut.benchmarkFiles, )
     assert execution_engine.os.path.realpath.call_count == 0
     assert fake_sim.set_benchmark_data.call_count == 0
 
@@ -701,7 +701,7 @@ def test_ExecutionEngine_run_sim_runs_but_does_not_save_results_when_save_flag_i
 
     # Assert
     assert cut.sim.run_sim.call_count == 1
-    assert cut.sim.run_sim.call_args_list[0].args == (cut.IO_Flag, cut.Dev_Flag, cut.Viz_Flag, )
+    assert cut.sim.run_sim.call_args_list[0][0] == (cut.IO_Flag, cut.Dev_Flag, cut.Viz_Flag, )
     assert cut.save_results.call_count == 0
 
 def test_ExecutionEngine_run_sim_runs_and_saves_results_when_save_flag_is_True(mocker):
@@ -722,9 +722,9 @@ def test_ExecutionEngine_run_sim_runs_and_saves_results_when_save_flag_is_True(m
 
     # Assert
     assert cut.sim.run_sim.call_count == 1
-    assert cut.sim.run_sim.call_args_list[0].args == (cut.IO_Flag, cut.Dev_Flag, cut.Viz_Flag, )
+    assert cut.sim.run_sim.call_args_list[0][0] == (cut.IO_Flag, cut.Dev_Flag, cut.Viz_Flag, )
     assert cut.save_results.call_count == 1
-    assert cut.save_results.call_args_list[0].args == (cut.save_name, )
+    assert cut.save_results.call_args_list[0][0] == (cut.save_name, )
 
 # init_save_paths tests
 def test_ExecutionEngine_init_save_paths_makes_tmp_and_models_and_diagnosis_directories_and_adds_them_to_os_environ(mocker):
@@ -750,9 +750,9 @@ def test_ExecutionEngine_init_save_paths_makes_tmp_and_models_and_diagnosis_dire
     # NOTE: assert execution_engine.os.path.join.call_count must assert correctly or there are odd errors? Is this due to using side_effect instead of return_value?
     assert execution_engine.os.path.join.call_count == 3
     # NOTE: similar problem with the args lists, bad expected values do not error nicely with good outputs, so beware but correct values pass
-    assert execution_engine.os.path.join.call_args_list[0].args == (fake_save_path, 'tmp')
-    assert execution_engine.os.path.join.call_args_list[1].args == (fake_tmp_save_path, 'models')
-    assert execution_engine.os.path.join.call_args_list[2].args == (fake_tmp_save_path, 'diagnosis')
+    assert execution_engine.os.path.join.call_args_list[0][0] == (fake_save_path, 'tmp')
+    assert execution_engine.os.path.join.call_args_list[1][0] == (fake_tmp_save_path, 'models')
+    assert execution_engine.os.path.join.call_args_list[2][0] == (fake_tmp_save_path, 'diagnosis')
     # NOTE: apparently the problem persists to other failures because these asserts have the same problem, bad values error, but not correct outputs, good values pass
     assert execution_engine.os.environ['ONAIR_SAVE_PATH'] == fake_save_path
     assert execution_engine.os.environ['ONAIR_TMP_SAVE_PATH'] == fake_tmp_save_path
@@ -780,7 +780,7 @@ def test_ExecutionEngine_delete_save_paths_does_nothing_when_save_path_has_no_tm
 
     # Assert
     assert execution_engine.os.listdir.call_count == 1
-    assert execution_engine.os.listdir.call_args_list[0].args == (fake_save_path, )
+    assert execution_engine.os.listdir.call_args_list[0][0] == (fake_save_path, )
     assert execution_engine.shutil.rmtree.call_count == 0
 
 def test_ExecutionEngine_delete_save_paths_removes_tmp_tree_when_it_exists(mocker):
@@ -807,9 +807,9 @@ def test_ExecutionEngine_delete_save_paths_removes_tmp_tree_when_it_exists(mocke
 
     # Assert
     assert execution_engine.os.listdir.call_count == 1
-    assert execution_engine.os.listdir.call_args_list[0].args == (fake_save_path, )
+    assert execution_engine.os.listdir.call_args_list[0][0] == (fake_save_path, )
     assert execution_engine.shutil.rmtree.call_count == 1
-    assert execution_engine.shutil.rmtree.call_args_list[0].args == (fake_save_path + '/tmp', )
+    assert execution_engine.shutil.rmtree.call_args_list[0][0] == (fake_save_path + '/tmp', )
     assert execution_engine.print.call_count == 0
 
 def test_ExecutionEngine_delete_save_paths_prints_error_message_when_rmtree_raises_OSError(mocker):
@@ -837,11 +837,11 @@ def test_ExecutionEngine_delete_save_paths_prints_error_message_when_rmtree_rais
 
     # Assert
     assert execution_engine.os.listdir.call_count == 1
-    assert execution_engine.os.listdir.call_args_list[0].args == (fake_save_path, )
+    assert execution_engine.os.listdir.call_args_list[0][0] == (fake_save_path, )
     assert execution_engine.shutil.rmtree.call_count == 1
-    assert execution_engine.shutil.rmtree.call_args_list[0].args == (fake_save_path + '/tmp', )
+    assert execution_engine.shutil.rmtree.call_args_list[0][0] == (fake_save_path + '/tmp', )
     assert execution_engine.print.call_count == 1
-    assert execution_engine.print.call_args_list[0].args == (("Error: " + fake_save_path + " : " + fake_error_message), )
+    assert execution_engine.print.call_args_list[0][0] == (("Error: " + fake_save_path + " : " + fake_error_message), )
 
 # save_results tests
 def test_ExecutionEngine_save_results_creates_expected_save_path_and_copies_proper_tree_to_it(mocker):
@@ -868,13 +868,13 @@ def test_ExecutionEngine_save_results_creates_expected_save_path_and_copies_prop
 
     # Assert
     assert execution_engine.gmtime.call_count == 1
-    assert execution_engine.gmtime.call_args_list[0].args == ()
+    assert execution_engine.gmtime.call_args_list[0][0] == ()
     assert execution_engine.strftime.call_count == 1
-    assert execution_engine.strftime.call_args_list[0].args == ("%H-%M-%S", fake_gmtime,)
+    assert execution_engine.strftime.call_args_list[0][0] == ("%H-%M-%S", fake_gmtime,)
     assert execution_engine.os.mkdir.call_count == 1
-    assert execution_engine.os.mkdir.call_args_list[0].args == (fake_save_path, )
+    assert execution_engine.os.mkdir.call_args_list[0][0] == (fake_save_path, )
     assert execution_engine.copy_tree.call_count == 1
-    assert execution_engine.copy_tree.call_args_list[0].args == (fake_onair_tmp_save_path, fake_save_path, )
+    assert execution_engine.copy_tree.call_args_list[0][0] == (fake_onair_tmp_save_path, fake_save_path, )
 
 # set_run_param tests
 def test_ExecutionEngine_set_run_param_passes_given_arguments_to_setattr(mocker):
@@ -890,7 +890,7 @@ def test_ExecutionEngine_set_run_param_passes_given_arguments_to_setattr(mocker)
 
     # Assert
     assert execution_engine.setattr.call_count == 1
-    assert execution_engine.setattr.call_args_list[0].args == (cut, arg_name, arg_val, )
+    assert execution_engine.setattr.call_args_list[0][0] == (cut, arg_name, arg_val, )
 
 # ast_parse_eval tests
 def test_ExecutionEngine_ast_parse_eval_returns_call_to_ast_parse_with_mode_eval(mocker):
@@ -907,6 +907,6 @@ def test_ExecutionEngine_ast_parse_eval_returns_call_to_ast_parse_with_mode_eval
     # Assert
     assert result == expected_result
     assert execution_engine.ast.parse.call_count == 1
-    assert execution_engine.ast.parse.call_args_list[0].args == (arg_config_list, )
-    assert execution_engine.ast.parse.call_args_list[0].kwargs == {'mode':'eval'}
+    assert execution_engine.ast.parse.call_args_list[0][0] == (arg_config_list, )
+    assert execution_engine.ast.parse.call_args_list[0][1] == {'mode':'eval'}
 

@@ -38,14 +38,14 @@ def test_tlm_json_converter_convertTlmToJson_calls_expected_functions_with_expec
 
     # Assert
     assert tlm_json_converter.getConfigPath.call_count == 2
-    assert tlm_json_converter.getConfigPath.call_args_list[0].args == (arg_tlm,)
-    assert tlm_json_converter.getConfigPath.call_args_list[1].args == (arg_json,)
+    assert tlm_json_converter.getConfigPath.call_args_list[0][0] == (arg_tlm,)
+    assert tlm_json_converter.getConfigPath.call_args_list[1][0] == (arg_json,)
     assert tlm_json_converter.parseTlmConfTxt.call_count == 1
-    assert tlm_json_converter.parseTlmConfTxt.call_args_list[0].args == (fake_tlm_path,)
+    assert tlm_json_converter.parseTlmConfTxt.call_args_list[0][0] == (fake_tlm_path,)
     assert tlm_json_converter.convertTlmDictToJsonDict.call_count == 1
-    assert tlm_json_converter.convertTlmDictToJsonDict.call_args_list[0].args == (forced_return_parse_tlm_conf,)
+    assert tlm_json_converter.convertTlmDictToJsonDict.call_args_list[0][0] == (forced_return_parse_tlm_conf,)
     assert tlm_json_converter.writeToJson.call_count == 1
-    assert tlm_json_converter.writeToJson.call_args_list[0].args == (fake_json_path, forced_return_convert_tlm_to_json)
+    assert tlm_json_converter.writeToJson.call_args_list[0][0] == (fake_json_path, forced_return_convert_tlm_to_json)
 
 # convertTlmDictToJsonDict tests
 def test_tlm_json_converter_convertTlmDictToJsonDict_returns_expected_dict_with_subsystem_NONE_and_order_empty_list_when_all_data_components_are_empty(mocker):
@@ -160,9 +160,9 @@ def test_tlm_json_converter_convertTlmDictToJsonDict_returns_expected_dict_when_
 
     # Assert
     assert tlm_json_converter.getJsonData.call_count == 1
-    assert tlm_json_converter.getJsonData.call_args_list[0].args == (fake_labels[0], fake_mnemonics[0], fake_descs[0])
+    assert tlm_json_converter.getJsonData.call_args_list[0][0] == (fake_labels[0], fake_mnemonics[0], fake_descs[0])
     assert tlm_json_converter.mergeDicts.call_count == 1
-    assert tlm_json_converter.mergeDicts.call_args_list[0].args == ({}, forced_return_get_json_data)
+    assert tlm_json_converter.mergeDicts.call_args_list[0][0] == ({}, forced_return_get_json_data)
     assert result == expected_result
 
 def test_tlm_json_converter_convertTlmDictToJsonDict_calls_mergeDicts_and_returns_expected_dict_when_len_of_all_data_components_equals_one_and_subsystem_assign_contains_one_subsys(mocker):
@@ -185,9 +185,9 @@ def test_tlm_json_converter_convertTlmDictToJsonDict_calls_mergeDicts_and_return
 
     # Assert
     assert tlm_json_converter.getJsonData.call_count == 1
-    assert tlm_json_converter.getJsonData.call_args_list[0].args == (fake_labels[0], fake_mnemonics[0], fake_descs[0])
+    assert tlm_json_converter.getJsonData.call_args_list[0][0] == (fake_labels[0], fake_mnemonics[0], fake_descs[0])
     assert tlm_json_converter.mergeDicts.call_count == 1
-    assert tlm_json_converter.mergeDicts.call_args_list[0].args == ({}, forced_return_get_json_data)
+    assert tlm_json_converter.mergeDicts.call_args_list[0][0] == ({}, forced_return_get_json_data)
     assert result == expected_result
 
 def test_tlm_json_converter_convertTlmDictToJsonDict_calls_mergeDicts_and_returns_expected_dict_when_len_of_all_data_components_equals_one_and_subsystem_assign_contains_many_subsys(mocker):
@@ -220,9 +220,9 @@ def test_tlm_json_converter_convertTlmDictToJsonDict_calls_mergeDicts_and_return
 
     # Assert
     assert tlm_json_converter.getJsonData.call_count == num_elems
-    assert tlm_json_converter.getJsonData.call_args_list[0].args == (fake_labels[0], fake_mnemonics[0], fake_descs[0])
+    assert tlm_json_converter.getJsonData.call_args_list[0][0] == (fake_labels[0], fake_mnemonics[0], fake_descs[0])
     assert tlm_json_converter.mergeDicts.call_count == expected_mergeDicts_call_count
-    assert tlm_json_converter.mergeDicts.call_args_list[0].args == ({}, forced_return_get_json_data)
+    assert tlm_json_converter.mergeDicts.call_args_list[0][0] == ({}, forced_return_get_json_data)
     assert result == expected_result
 
 def test_tlm_json_converter_convertTlmDictToJsonDict_calls_mergeDicts_and_returns_expected_dict_for_arbitrary_data_components_len_and_subsystem_assign_contains_both_empty_and_non_empty_lists(mocker):
@@ -261,9 +261,9 @@ def test_tlm_json_converter_convertTlmDictToJsonDict_calls_mergeDicts_and_return
 
     # Assert
     assert tlm_json_converter.getJsonData.call_count == num_elems
-    assert tlm_json_converter.getJsonData.call_args_list[0].args == (fake_labels[0], fake_mnemonics[0], fake_descs[0])
+    assert tlm_json_converter.getJsonData.call_args_list[0][0] == (fake_labels[0], fake_mnemonics[0], fake_descs[0])
     assert tlm_json_converter.mergeDicts.call_count == expected_mergeDicts_call_count
-    assert tlm_json_converter.mergeDicts.call_args_list[0].args == ({}, forced_return_get_json_data)
+    assert tlm_json_converter.mergeDicts.call_args_list[0][0] == ({}, forced_return_get_json_data)
     assert result == expected_result
 
 # getJsonData tests
@@ -318,7 +318,7 @@ def test_tlm_json_converter_parseTlmConfTxt_returns_tuple_of_empty_lists_when_da
 
     # Assert
     assert tlm_json_converter.open.call_count == 1
-    assert tlm_json_converter.open.call_args_list[0].args == (arg_configFilePath, 'r')
+    assert tlm_json_converter.open.call_args_list[0][0] == (arg_configFilePath, 'r')
     assert fake_descriptor_file.read.call_count == 1
     assert fake_descriptor_file.close.call_count == 1
     assert result == [[], [], [], []]
@@ -352,12 +352,12 @@ def test_tlm_json_converter_parseTlmConfTxt_returns_tuple_of_4_expected_appended
 
     # Assert
     assert tlm_json_converter.open.call_count == 1
-    assert tlm_json_converter.open.call_args_list[0].args == (arg_configFilePath, "r")
+    assert tlm_json_converter.open.call_args_list[0][0] == (arg_configFilePath, "r")
     assert fake_descriptor_file.read.call_count == 1
     assert fake_descriptor_file.close.call_count == 1
     assert tlm_json_converter.str2lst.call_count == 2
-    assert tlm_json_converter.str2lst.call_args_list[0].args == (fake_str_subsystem_assignment, )
-    assert tlm_json_converter.str2lst.call_args_list[1].args == (fake_str_test, )
+    assert tlm_json_converter.str2lst.call_args_list[0][0] == (fake_str_subsystem_assignment, )
+    assert tlm_json_converter.str2lst.call_args_list[1][0] == (fake_str_test, )
     assert result == [expected_labels, expected_subsystem_assignments, expected_mnemonic_tests, expected_descriptions]
 
 def test_tlm_json_converter_parseTlmConfTxt_returns_tuple_of_4_expected_appended_lists_with_description_when_dataPts_has_one_item_and_field_info_does_split_on_colon_and_multi_test(mocker):
@@ -392,13 +392,13 @@ def test_tlm_json_converter_parseTlmConfTxt_returns_tuple_of_4_expected_appended
 
     # Assert
     assert tlm_json_converter.open.call_count == 1
-    assert tlm_json_converter.open.call_args_list[0].args == (arg_configFilePath, "r")
+    assert tlm_json_converter.open.call_args_list[0][0] == (arg_configFilePath, "r")
     assert fake_descriptor_file.read.call_count == 1
     assert fake_descriptor_file.close.call_count == 1
     assert tlm_json_converter.str2lst.call_count == 3
-    assert tlm_json_converter.str2lst.call_args_list[0].args == (fake_str_subsystem_assignment, )
-    assert tlm_json_converter.str2lst.call_args_list[1].args == (fake_str_test, )
-    assert tlm_json_converter.str2lst.call_args_list[2].args == (fake_str_test2, )
+    assert tlm_json_converter.str2lst.call_args_list[0][0] == (fake_str_subsystem_assignment, )
+    assert tlm_json_converter.str2lst.call_args_list[1][0] == (fake_str_test, )
+    assert tlm_json_converter.str2lst.call_args_list[2][0] == (fake_str_test2, )
     assert result == [expected_labels, expected_subsystem_assignments, expected_mnemonic_tests, expected_descriptions]
 
 def test_tlm_json_converter_parseTlmConfTxt_returns_tuple_of_4_expected_appended_lists_when_there_are_multiple_data_points(mocker):
@@ -440,13 +440,13 @@ def test_tlm_json_converter_parseTlmConfTxt_returns_tuple_of_4_expected_appended
 
     # Assert    
     assert tlm_json_converter.open.call_count == 1
-    assert tlm_json_converter.open.call_args_list[0].args == (arg_configFilePath, "r")
+    assert tlm_json_converter.open.call_args_list[0][0] == (arg_configFilePath, "r")
     assert fake_descriptor_file.read.call_count == 1
     assert fake_descriptor_file.close.call_count == 1
     assert tlm_json_converter.str2lst.call_count == 2 * num_fake_dataPts
     for i in range(num_fake_dataPts):
-        assert tlm_json_converter.str2lst.call_args_list[2 * i].args == (fake_str_subsystem_assignment, )
-        assert tlm_json_converter.str2lst.call_args_list[(2*i) + 1].args == (fake_str_test, )
+        assert tlm_json_converter.str2lst.call_args_list[2 * i][0] == (fake_str_subsystem_assignment, )
+        assert tlm_json_converter.str2lst.call_args_list[(2*i) + 1][0] == (fake_str_test, )
     assert result == [expected_labels, expected_subsystem_assignments, expected_mnemonic_tests, expected_descriptions]
 
 # getConfigPath tests
@@ -470,12 +470,12 @@ def test_tlm_json_converter_getConfigPath_uses_os_functions_to_find_file_path(mo
     # Assert
     assert result == fake_file_path
     assert tlm_json_converter.os.path.dirname.call_count == 2
-    assert tlm_json_converter.os.path.dirname.call_args_list[0].args == (fake__file__, )
-    assert tlm_json_converter.os.path.dirname.call_args_list[1].args == (fake_parent_dir, )
+    assert tlm_json_converter.os.path.dirname.call_args_list[0][0] == (fake__file__, )
+    assert tlm_json_converter.os.path.dirname.call_args_list[1][0] == (fake_parent_dir, )
     assert tlm_json_converter.os.path.join.call_count == 3
-    assert tlm_json_converter.os.path.join.call_args_list[0].args == (fake_parent_dir, 'data')
-    assert tlm_json_converter.os.path.join.call_args_list[1].args == (fake_data_dir, 'telemetry_configs')
-    assert tlm_json_converter.os.path.join.call_args_list[2].args == (fake_configs_dir, arg_file_name)
+    assert tlm_json_converter.os.path.join.call_args_list[0][0] == (fake_parent_dir, 'data')
+    assert tlm_json_converter.os.path.join.call_args_list[1][0] == (fake_data_dir, 'telemetry_configs')
+    assert tlm_json_converter.os.path.join.call_args_list[2][0] == (fake_configs_dir, arg_file_name)
 
 # mergeDicts tests
 def test_tlm_json_converter_mergeDicts_when_both_args_are_empty():
@@ -633,12 +633,12 @@ def test_tlm_json_converter_writeJson_opens_given_path_and_writes_data_using_jso
     
     # Assert
     assert tlm_json_converter.open.call_count == 1
-    assert tlm_json_converter.open.call_args_list[0].args == (arg_path, 'w')
+    assert tlm_json_converter.open.call_args_list[0][0] == (arg_path, 'w')
     assert tlm_json_converter.json.dumps.call_count == 1
-    assert tlm_json_converter.json.dumps.call_args_list[0].args == (arg_data, )
-    assert tlm_json_converter.json.dumps.call_args_list[0].kwargs == {'indent' : 2}
+    assert tlm_json_converter.json.dumps.call_args_list[0][0] == (arg_data, )
+    assert tlm_json_converter.json.dumps.call_args_list[0][1] == {'indent' : 2}
     assert fake_file.write.call_count == 1
-    assert fake_file.write.call_args_list[0].args == (fake_json_data, )
+    assert fake_file.write.call_args_list[0][0] == (fake_json_data, )
     assert fake_file.close.call_count == 1
 
 # str2lst tests
@@ -655,7 +655,7 @@ def test_tlm_json_converter_str2lst_returns_call_to_ast_literal_eval_which_recei
 
     # Assert
     assert tlm_json_converter.ast.literal_eval.call_count == 1
-    assert tlm_json_converter.ast.literal_eval.call_args_list[0].args == (arg_string, )
+    assert tlm_json_converter.ast.literal_eval.call_args_list[0][0] == (arg_string, )
     assert result == expected_result
 
 def test_tlm_json_converter_str2lst_prints_message_when_ast_literal_eval_receives_given_string_but_raises_exception(mocker):
@@ -670,9 +670,9 @@ def test_tlm_json_converter_str2lst_prints_message_when_ast_literal_eval_receive
 
     # Assert
     assert tlm_json_converter.ast.literal_eval.call_count == 1
-    assert tlm_json_converter.ast.literal_eval.call_args_list[0].args == (arg_string, )
+    assert tlm_json_converter.ast.literal_eval.call_args_list[0][0] == (arg_string, )
     assert tlm_json_converter.print.call_count == 1
-    assert tlm_json_converter.print.call_args_list[0].args == ("Unable to process string representation of list", )
+    assert tlm_json_converter.print.call_args_list[0][0] == ("Unable to process string representation of list", )
     assert result == None
 
 # main tests
@@ -696,14 +696,14 @@ def test_tlm_json_converter_main_trys_to_call_convertTlmToJson_with_parsed_args_
 
     # Assert
     assert tlm_json_converter.argparse.ArgumentParser.call_count == 1
-    assert tlm_json_converter.argparse.ArgumentParser.call_args_list[0].kwargs == {'description' : ''}
+    assert tlm_json_converter.argparse.ArgumentParser.call_args_list[0][1] == {'description' : ''}
     assert fake_arg_parser.add_argument.call_count == 2
-    assert fake_arg_parser.add_argument.call_args_list[0].args == ('text_config', )
-    assert fake_arg_parser.add_argument.call_args_list[0].kwargs == {'nargs' : '?', 'help' : 'Config file to be converted'}
-    assert fake_arg_parser.add_argument.call_args_list[1].args == ('json_config', )
-    assert fake_arg_parser.add_argument.call_args_list[1].kwargs == {'nargs' : '?', 'help' : 'Config file to be written to'}
+    assert fake_arg_parser.add_argument.call_args_list[0][0] == ('text_config', )
+    assert fake_arg_parser.add_argument.call_args_list[0][1] == {'nargs' : '?', 'help' : 'Config file to be converted'}
+    assert fake_arg_parser.add_argument.call_args_list[1][0] == ('json_config', )
+    assert fake_arg_parser.add_argument.call_args_list[1][1] == {'nargs' : '?', 'help' : 'Config file to be written to'}
     assert tlm_json_converter.convertTlmToJson.call_count == 1
-    assert tlm_json_converter.convertTlmToJson.call_args_list[0].args == (fake_text_file, fake_json_file)
+    assert tlm_json_converter.convertTlmToJson.call_args_list[0][0] == (fake_text_file, fake_json_file)
     assert tlm_json_converter.print.call_count == 0
 
 def testtest_tlm_json_converter_main_prints_error_msg_when_call_to_convertTlmToJson_raises_error(mocker):
@@ -730,16 +730,16 @@ def testtest_tlm_json_converter_main_prints_error_msg_when_call_to_convertTlmToJ
 
     # Assert
     assert tlm_json_converter.argparse.ArgumentParser.call_count == 1
-    assert tlm_json_converter.argparse.ArgumentParser.call_args_list[0].kwargs == {'description' : ''}
+    assert tlm_json_converter.argparse.ArgumentParser.call_args_list[0][1] == {'description' : ''}
     assert fake_arg_parser.add_argument.call_count == 2
-    assert fake_arg_parser.add_argument.call_args_list[0].args == ('text_config', )
-    assert fake_arg_parser.add_argument.call_args_list[0].kwargs == {'nargs' : '?', 'help' : 'Config file to be converted'}
-    assert fake_arg_parser.add_argument.call_args_list[1].args == ('json_config', )
-    assert fake_arg_parser.add_argument.call_args_list[1].kwargs == {'nargs' : '?', 'help' : 'Config file to be written to'}
+    assert fake_arg_parser.add_argument.call_args_list[0][0] == ('text_config', )
+    assert fake_arg_parser.add_argument.call_args_list[0][1] == {'nargs' : '?', 'help' : 'Config file to be converted'}
+    assert fake_arg_parser.add_argument.call_args_list[1][0] == ('json_config', )
+    assert fake_arg_parser.add_argument.call_args_list[1][1] == {'nargs' : '?', 'help' : 'Config file to be written to'}
     assert tlm_json_converter.convertTlmToJson.call_count == 1
-    assert tlm_json_converter.convertTlmToJson.call_args_list[0].args == (fake_text_file, fake_json_file)
+    assert tlm_json_converter.convertTlmToJson.call_args_list[0][0] == (fake_text_file, fake_json_file)
     assert tlm_json_converter.print.call_count == 1
-    assert tlm_json_converter.print.call_args_list[0].args == (expected_print_msg, )
+    assert tlm_json_converter.print.call_args_list[0][0] == (expected_print_msg, )
 
 # init tests
 def testtest_tlm_json_converter_init_calls_main_when__name__equals__main__(mocker):

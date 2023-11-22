@@ -136,11 +136,11 @@ def test_Diagnosis_perform_diagnosis_returns_dict_of_str_top_and_walkdown_of_ran
     assert type(result) == dict
     assert result == {'top' : forced_walkdown_return_value}
     assert diagnosis.list.call_count == 1
-    assert diagnosis.list.call_args_list[0].args == (fake_kalman_results[0], )
+    assert diagnosis.list.call_args_list[0][0] == (fake_kalman_results[0], )
     assert diagnosis.random.choice.call_count == 1
-    assert diagnosis.random.choice.call_args_list[0].args == (forced_list_return_value, )
+    assert diagnosis.random.choice.call_args_list[0][0] == (forced_list_return_value, )
     assert cut.walkdown.call_count == 1
-    assert cut.walkdown.call_args_list[0].args == (forced_random_choice_return_value, )
+    assert cut.walkdown.call_args_list[0][0] == (forced_random_choice_return_value, )
 
 # walkdown tests
 def test_Diagnosis_walkdown_returns_expected_value_and_does_not_call_copy_deepcopy_function_when_used_mnemonics_is_not_empty_and_mnemonic_name_is_not_blank_and_has_kalman_is_True_and_kalman_results_does_not_contain_mnemonic_name(mocker):
@@ -193,7 +193,7 @@ def test_Diagnosis_walkdown_returns_expected_value_and_calls_copy_deepcopy_funct
     # Assert
     assert result == expected_result
     assert diagnosis.copy.deepcopy.call_count == 1
-    assert diagnosis.copy.deepcopy.call_args_list[0].args == (fake_currently_faulting_mnemonics, )
+    assert diagnosis.copy.deepcopy.call_args_list[0][0] == (fake_currently_faulting_mnemonics, )
 
 def test_Diagnosis_walkdown_returns_NO_DIAGNOSIS_when_mnemonic_name_is_not_blank_and_has_kalman_is_True_and_kalman_results_contains_mnemonic_name(mocker):
     # Arrange

@@ -25,7 +25,7 @@ def test_cleanup_setup_folders_creates_dir_when_given_results_path_does_not_exis
   # Assert
   assert cleanup.os.path.isdir.call_count == 1
   assert cleanup.os.mkdir.call_count == 1
-  assert cleanup.os.mkdir.call_args_list[0].args == (arg_results_path, )
+  assert cleanup.os.mkdir.call_args_list[0][0] == (arg_results_path, )
 
 def test_cleanup_setup_folders_does_not_create_dir_when_it_already_exists(mocker):
   # Arrange

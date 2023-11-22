@@ -44,7 +44,7 @@ def test_redis_adapter_DataSource__init__sets_redis_values_then_connects_and_sub
 
     # Assert
     assert OnAirDataSource.__init__.call_count == 1
-    assert OnAirDataSource.__init__.call_args_list[0].args == (arg_data_file, arg_meta_file, arg_ss_breakdown)
+    assert OnAirDataSource.__init__.call_args_list[0][0] == (arg_data_file, arg_meta_file, arg_ss_breakdown)
     assert cut.address == expected_address
     assert cut.port == expected_port
     assert cut.db == expected_db
@@ -54,9 +54,9 @@ def test_redis_adapter_DataSource__init__sets_redis_values_then_connects_and_sub
     assert cut.currentData == [{'headers':None, 'data':None}, {'headers':None, 'data':None}]
     assert cut.double_buffer_read_index == 0
     assert cut.connect.call_count == 1
-    assert cut.connect.call_args_list[0].args == ()
+    assert cut.connect.call_args_list[0][0] == ()
     assert cut.subscribe.call_count == 1
-    assert cut.subscribe.call_args_list[0].args == (expected_subscriptions, )
+    assert cut.subscribe.call_args_list[0][0] == (expected_subscriptions, )
     
 # connect tests
 def test_redis_adapter_DataSource_connect_establishes_server_with_initialized_attributes(mocker):
@@ -79,11 +79,11 @@ def test_redis_adapter_DataSource_connect_establishes_server_with_initialized_at
 
     # Assert
     assert redis_adapter.print_msg.call_count == 2
-    assert redis_adapter.print_msg.call_args_list[0].args == ('Redis adapter connecting to server...',)
+    assert redis_adapter.print_msg.call_args_list[0][0] == ('Redis adapter connecting to server...',)
     assert redis.Redis.call_count == 1
-    assert redis.Redis.call_args_list[0].args == (expected_address, expected_port, expected_db)
+    assert redis.Redis.call_args_list[0][0] == (expected_address, expected_port, expected_db)
     assert fake_server.ping.call_count == 1
-    assert redis_adapter.print_msg.call_args_list[1].args == ('... connected!',)
+    assert redis_adapter.print_msg.call_args_list[1][0] == ('... connected!',)
     assert cut.server == fake_server
 
 def test_redis_adapter_DataSource_fails_to_connect_to_server(mocker):
@@ -107,9 +107,9 @@ def test_redis_adapter_DataSource_fails_to_connect_to_server(mocker):
 
     # Assert
     assert redis_adapter.print_msg.call_count == 1
-    assert redis_adapter.print_msg.call_args_list[0].args == ("Redis adapter connecting to server...",)
+    assert redis_adapter.print_msg.call_args_list[0][0] == ("Redis adapter connecting to server...",)
     assert redis.Redis.call_count == 1
-    assert redis.Redis.call_args_list[0].args == (expected_address, expected_port, expected_db)
+    assert redis.Redis.call_args_list[0][0] == (expected_address, expected_port, expected_db)
     assert fake_server.ping.call_count == 1
     assert cut.server == fake_server
 
@@ -140,10 +140,10 @@ def test_redis_adapter_DataSource_subscribe_subscribes_to_each_given_subscriptio
     assert fake_server.pubsub.call_count == 1
     assert fake_pubsub.subscribe.call_count == len(arg_subscriptions)
     for i in range(len(arg_subscriptions)):
-        assert fake_pubsub.subscribe.call_args_list[i].args == (arg_subscriptions[i],)
-        assert redis_adapter.print_msg.call_args_list[i].args == (f"Subscribing to channel: {arg_subscriptions[i]}",)
+        assert fake_pubsub.subscribe.call_args_list[i][0] == (arg_subscriptions[i],)
+        assert redis_adapter.print_msg.call_args_list[i][0] == (f"Subscribing to channel: {arg_subscriptions[i]}",)
     assert threading.Thread.call_count == 1
-    assert threading.Thread.call_args_list[0].kwargs == ({'target': cut.message_listener})
+    assert threading.Thread.call_args_list[0][1] == ({'target': cut.message_listener})
     assert fake_thread.start.call_count == 1
     assert cut.pubsub == fake_pubsub
 
@@ -173,7 +173,7 @@ def test_redis_adapter_DataSource_subscribe_states_no_subscriptions_given_when_e
     assert threading.Thread.call_count == 0
     assert fake_thread.start.call_count == 0
     assert cut.pubsub == initial_pubsub
-    assert redis_adapter.print_msg.call_args_list[0].args == ("No subscriptions given!",)
+    assert redis_adapter.print_msg.call_args_list[0][0] == ("No subscriptions given!",)
 
 # Note the self.server.ping during runtime will error, not actually return False, but that means code will never run
 # this unit test is for completeness of coverage
@@ -203,7 +203,7 @@ def test_redis_adapter_DataSource_subscribe_states_no_subscriptions_given_when_s
     assert threading.Thread.call_count == 0
     assert fake_thread.start.call_count == 0
     assert cut.pubsub == initial_pubsub
-    assert redis_adapter.print_msg.call_args_list[0].args == ("No subscriptions given!",)
+    assert redis_adapter.print_msg.call_args_list[0][0] == ("No subscriptions given!",)
 
 # get_next tests
 
@@ -375,7 +375,7 @@ def test_redis_adapter_DataSource_message_listener_loads_message_info_when_recei
 
     # Assert
     assert redis_adapter.json.loads.call_count == 1
-    assert redis_adapter.json.loads.call_args_list[0].args == (fake_message_data,)
+    assert redis_adapter.json.loads.call_args_list[0][0] == (fake_message_data,)
     assert cut.currentData[expected_index]['headers'] == expected_data_headers
     assert cut.currentData[expected_index]['data'] == expected_data_values
     assert cut.new_data == True
@@ -410,9 +410,9 @@ def test_redis_adapter_DataSource_parse_meta_data_file_returns_call_to_extract_m
 
     # Assert
     assert redis_adapter.extract_meta_data_handle_ss_breakdown.call_count == 1
-    assert redis_adapter.extract_meta_data_handle_ss_breakdown.call_args_list[0].args == (arg_configFile, arg_ss_breakdown)
+    assert redis_adapter.extract_meta_data_handle_ss_breakdown.call_args_list[0][0] == (arg_configFile, arg_ss_breakdown)
     assert redis_adapter.parseJson.call_count == 1
-    assert redis_adapter.parseJson.call_args_list[0].args == (arg_configFile, )
+    assert redis_adapter.parseJson.call_args_list[0][0] == (arg_configFile, )
     assert cut.subscriptions == expected_subscriptions
     assert result == expected_extracted_configs
 
@@ -434,9 +434,9 @@ def test_redis_adapter_DataSource_parse_meta_data_file_returns_call_to_extract_m
 
     # Assert
     assert redis_adapter.extract_meta_data_handle_ss_breakdown.call_count == 1
-    assert redis_adapter.extract_meta_data_handle_ss_breakdown.call_args_list[0].args == (arg_configFile, arg_ss_breakdown)
+    assert redis_adapter.extract_meta_data_handle_ss_breakdown.call_args_list[0][0] == (arg_configFile, arg_ss_breakdown)
     assert redis_adapter.parseJson.call_count == 1
-    assert redis_adapter.parseJson.call_args_list[0].args == (arg_configFile, )
+    assert redis_adapter.parseJson.call_args_list[0][0] == (arg_configFile, )
     assert cut.subscriptions == []
     assert result == fake_configs
 

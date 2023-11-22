@@ -280,9 +280,9 @@ def test_Kalman_mean_calculates_return_value_by_dividing_sum_by_len(mocker):
 
     # Assert
     assert kalman_plugin.sum.call_count == 1
-    assert kalman_plugin.sum.call_args_list[0].args == (arg_values, )
+    assert kalman_plugin.sum.call_args_list[0][0] == (arg_values, )
     assert kalman_plugin.len.call_count == 1
-    assert kalman_plugin.len.call_args_list[0].args == (arg_values, )
+    assert kalman_plugin.len.call_args_list[0][0] == (arg_values, )
     assert result == forced_sum_return_value/forced_len_return_value
 
 # test residual
@@ -302,7 +302,7 @@ def test_Kalman_residual_calculates_return_value_by_finding_the_abs_difference_o
     # Assert
     assert result == forced_abs_return_value
     assert kalman_plugin.abs.call_count == 1
-    assert kalman_plugin.abs.call_args_list[0].args == (arg_actual - arg_predicted, )
+    assert kalman_plugin.abs.call_args_list[0][0] == (arg_actual - arg_predicted, )
 
 # test std_dev
 def test_Kalman_std_dev_calculates_return_value_by_using_np_std_function_on_arg_data(mocker):
@@ -320,7 +320,7 @@ def test_Kalman_std_dev_calculates_return_value_by_using_np_std_function_on_arg_
     # Assert
     assert result == forced_std_return_value
     assert kalman_plugin.np.std.call_count == 1
-    assert kalman_plugin.np.std.call_args_list[0].args == (arg_data, )
+    assert kalman_plugin.np.std.call_args_list[0][0] == (arg_data, )
 
 # test predict
 def test_Kalman_predict_smoothes_data_and_predicts_result_using_KalmanFilter_functions_as_expected_when_data_is_empty_and_initial_val_equals_None(mocker):
@@ -344,9 +344,9 @@ def test_Kalman_predict_smoothes_data_and_predicts_result_using_KalmanFilter_fun
     # Assert
     assert result == forced_predict_return_value
     assert fake_kf.smooth.call_count == 1
-    assert fake_kf.smooth.call_args_list[0].args == (arg_data, )
+    assert fake_kf.smooth.call_args_list[0][0] == (arg_data, )
     assert fake_kf.predict.call_count == 1
-    assert fake_kf.predict.call_args_list[0].args == (arg_data, arg_forward_steps)
+    assert fake_kf.predict.call_args_list[0][0] == (arg_data, arg_forward_steps)
 
 def test_Kalman_predict_smoothes_data_and_predicts_result_using_KalmanFilter_functions_as_expected_when_data_is_empty_and_initial_val_is_not_None(mocker):
     # Arrange
@@ -369,10 +369,10 @@ def test_Kalman_predict_smoothes_data_and_predicts_result_using_KalmanFilter_fun
     # Assert
     assert result == forced_predict_return_value
     assert fake_kf.smooth.call_count == 1
-    assert fake_kf.smooth.call_args_list[0].args == (arg_data, )
-    assert fake_kf.smooth.call_args_list[0].kwargs == {'initial_value' : [arg_initial_val,0]}
+    assert fake_kf.smooth.call_args_list[0][0] == (arg_data, )
+    assert fake_kf.smooth.call_args_list[0][1] == {'initial_value' : [arg_initial_val,0]}
     assert fake_kf.predict.call_count == 1
-    assert fake_kf.predict.call_args_list[0].args == (arg_data, arg_forward_steps)
+    assert fake_kf.predict.call_args_list[0][0] == (arg_data, arg_forward_steps)
 
 def test_Kalman_predict_smoothes_data_and_predicts_result_using_KalmanFilter_functions_as_expected_when_initial_val_equals_None(mocker):
     # Arrange
@@ -399,9 +399,9 @@ def test_Kalman_predict_smoothes_data_and_predicts_result_using_KalmanFilter_fun
     # Assert
     assert result == forced_predict_return_value
     assert fake_kf.smooth.call_count == 1
-    assert fake_kf.smooth.call_args_list[0].args == (arg_data, )
+    assert fake_kf.smooth.call_args_list[0][0] == (arg_data, )
     assert fake_kf.predict.call_count == 1
-    assert fake_kf.predict.call_args_list[0].args == (arg_data, arg_forward_steps)
+    assert fake_kf.predict.call_args_list[0][0] == (arg_data, arg_forward_steps)
 
 def test_Kalman_predict_when_not_given_initial_val_arg_sets_initial_val_arg_equal_to_None(mocker):
     # Arrange
@@ -427,9 +427,9 @@ def test_Kalman_predict_when_not_given_initial_val_arg_sets_initial_val_arg_equa
     # Assert
     assert result == forced_predict_return_value
     assert fake_kf.smooth.call_count == 1
-    assert fake_kf.smooth.call_args_list[0].args == (arg_data, )
+    assert fake_kf.smooth.call_args_list[0][0] == (arg_data, )
     assert fake_kf.predict.call_count == 1
-    assert fake_kf.predict.call_args_list[0].args == (arg_data, arg_forward_steps)
+    assert fake_kf.predict.call_args_list[0][0] == (arg_data, arg_forward_steps)
 
 def test_Kalman_predict_smoothes_data_and_predicts_result_using_KalmanFilter_functions_as_expected_when_initial_val_is_not_None(mocker):
     # Arrange
@@ -456,10 +456,10 @@ def test_Kalman_predict_smoothes_data_and_predicts_result_using_KalmanFilter_fun
     # Assert
     assert result == forced_predict_return_value
     assert fake_kf.smooth.call_count == 1
-    assert fake_kf.smooth.call_args_list[0].args == (arg_data, )
-    assert fake_kf.smooth.call_args_list[0].kwargs == {'initial_value' : [arg_initial_val,0]}
+    assert fake_kf.smooth.call_args_list[0][0] == (arg_data, )
+    assert fake_kf.smooth.call_args_list[0][1] == {'initial_value' : [arg_initial_val,0]}
     assert fake_kf.predict.call_count == 1
-    assert fake_kf.predict.call_args_list[0].args == (arg_data, arg_forward_steps)
+    assert fake_kf.predict.call_args_list[0][0] == (arg_data, arg_forward_steps)
 
 def test_Kalman_predict_floatifies_args_and_smoothes_data_and_predicts_result_using_KalmanFilter_functions_as_expected_when_args_are_not_float_values(mocker):
     # Arrange
@@ -491,10 +491,10 @@ def test_Kalman_predict_floatifies_args_and_smoothes_data_and_predicts_result_us
     assert arg_data == arg_data_float
     assert arg_initial_val != arg_initial_val_float
     assert fake_kf.smooth.call_count == 1
-    assert fake_kf.smooth.call_args_list[0].args == (arg_data_float,)
-    assert fake_kf.smooth.call_args_list[0].kwargs == {'initial_value' : [arg_initial_val_float,0]}
+    assert fake_kf.smooth.call_args_list[0][0] == (arg_data_float,)
+    assert fake_kf.smooth.call_args_list[0][1] == {'initial_value' : [arg_initial_val_float,0]}
     assert fake_kf.predict.call_count == 1
-    assert fake_kf.predict.call_args_list[0].args == (arg_data_float, arg_forward_steps)
+    assert fake_kf.predict.call_args_list[0][0] == (arg_data_float, arg_forward_steps)
 
 # test predictions_for_given_data
 def test_Kalman_predictions_for_given_data_raises_error_when_data_arg_is_empty(mocker):
@@ -553,7 +553,7 @@ def test_Kalman_predictions_for_given_data_returns_expected_result_when_data_arg
     assert result == expected_result
     assert cut.predict.call_count == len_data - 1
     for i in range(len_data - 1):
-        cut.predict.call_args_list[i].args == (arg_data[0:i+1], 1, arg_data[0])
+        cut.predict.call_args_list[i][0] == (arg_data[0:i+1], 1, arg_data[0])
 
 # test generate_residuals_for_given_data
 def test_Kalman_generate_residuals_for_given_data_raises_error_when_data_arg_is_empty(mocker):
@@ -617,10 +617,10 @@ def test_Kalman_generate_residuals_for_given_data_returns_expected_result_when_d
     assert result == expected_result
     assert cut.predict.call_count == len_data - 1
     for i in range(len_data - 1):
-        cut.predict.call_args_list[i].args == (arg_data[0:i+1], 1, arg_data[0])
+        cut.predict.call_args_list[i][0] == (arg_data[0:i+1], 1, arg_data[0])
     assert cut.residual.call_count == len_data - 1
     for i in range(len_data - 1):
-        cut.residual.call_args_list[i].args == (forced_pred_mean, arg_data[i + 1])
+        cut.residual.call_args_list[i][0] == (forced_pred_mean, arg_data[i + 1])
 
 # test current_attribute_chunk_get_error
 def test_Kalman_current_attribute_chunk_get_error_returns_true_when_abs_of_mean_residuals_equal_to_or_greater_than_one_point_five(mocker):
@@ -642,12 +642,12 @@ def test_Kalman_current_attribute_chunk_get_error_returns_true_when_abs_of_mean_
     # Assert
     assert result == True
     assert cut.generate_residuals_for_given_data.call_count == 1
-    assert cut.generate_residuals_for_given_data.call_args_list[0].args == (arg_data, )
+    assert cut.generate_residuals_for_given_data.call_args_list[0][0] == (arg_data, )
     assert cut.mean.call_count == 1
-    assert cut.mean.call_args_list[0].args == (forced_generate_residuals_return_value, )
+    assert cut.mean.call_args_list[0][0] == (forced_generate_residuals_return_value, )
     assert kalman_plugin.abs.call_count == 2
-    assert kalman_plugin.abs.call_args_list[0].args == (forced_mean_return_value, )
-    assert kalman_plugin.abs.call_args_list[1].args == (forced_abs_return_value, )
+    assert kalman_plugin.abs.call_args_list[0][0] == (forced_mean_return_value, )
+    assert kalman_plugin.abs.call_args_list[1][0] == (forced_abs_return_value, )
 
 def test_Kalman_current_attribute_chunk_get_error_returns_false_when_abs_of_mean_residuals_less_than_one_point_five(mocker):
     # Arrange
@@ -668,12 +668,12 @@ def test_Kalman_current_attribute_chunk_get_error_returns_false_when_abs_of_mean
     # Assert
     assert result == False
     assert cut.generate_residuals_for_given_data.call_count == 1
-    assert cut.generate_residuals_for_given_data.call_args_list[0].args == (arg_data, )
+    assert cut.generate_residuals_for_given_data.call_args_list[0][0] == (arg_data, )
     assert cut.mean.call_count == 1
-    assert cut.mean.call_args_list[0].args == (forced_generate_residuals_return_value, )
+    assert cut.mean.call_args_list[0][0] == (forced_generate_residuals_return_value, )
     assert kalman_plugin.abs.call_count == 2
-    assert kalman_plugin.abs.call_args_list[0].args == (forced_mean_return_value, )
-    assert kalman_plugin.abs.call_args_list[1].args == (forced_abs_return_value, )
+    assert kalman_plugin.abs.call_args_list[0][0] == (forced_mean_return_value, )
+    assert kalman_plugin.abs.call_args_list[1][0] == (forced_abs_return_value, )
 
 # test frame_diagnosis
 def test_Kalman_frame_diagnosis_returns_empty_list_when_args_frame_and_headers_are_empty():
@@ -708,7 +708,7 @@ def test_Kalman_frame_diagnosis_returns_empty_list_when_current_attribute_chunk_
     assert result == []
     assert cut.current_attribute_chunk_get_error.call_count == len_args
     for i in range(len_args):
-        assert cut.current_attribute_chunk_get_error.call_args_list[i].args == (arg_frame[i], )
+        assert cut.current_attribute_chunk_get_error.call_args_list[i][0] == (arg_frame[i], )
 
 def test_Kalman_frame_diagnosis_returns_empty_list_when_all_elements_in_headers_arg_match_time_str(mocker):
     # Arrange

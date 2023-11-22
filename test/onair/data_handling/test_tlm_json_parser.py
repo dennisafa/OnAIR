@@ -35,9 +35,9 @@ def test_tlm_json_parser_parseTlmConfJson_returns_configs_with_empty_dicts_when_
 
     # Assert
     assert tlm_json_parser.parseJson.call_count == 1
-    assert tlm_json_parser.parseJson.call_args_list[0].args == (arg_file_path, )
+    assert tlm_json_parser.parseJson.call_args_list[0][0] == (arg_file_path, )
     assert tlm_json_parser.reorganizeTlmDict.call_count == 1
-    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0].args == (fake_data, )
+    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0][0] == (fake_data, )
     assert result == expected_result
 
 def test_tlm_json_parser_parseTlmConfJson_returns_expected_configs_dict_when_reorg_dict_contains_only_one_label_and_order_key_does_not_exist(mocker):
@@ -69,9 +69,9 @@ def test_tlm_json_parser_parseTlmConfJson_returns_expected_configs_dict_when_reo
 
     # Assert
     assert tlm_json_parser.parseJson.call_count == 1
-    assert tlm_json_parser.parseJson.call_args_list[0].args == (arg_file_path, )
+    assert tlm_json_parser.parseJson.call_args_list[0][0] == (arg_file_path, )
     assert tlm_json_parser.reorganizeTlmDict.call_count == 1
-    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0].args == (fake_data, )
+    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0][0] == (fake_data, )
     assert result == expected_result
 
 def test_tlm_json_parser_parseTlmConfJson_returns_expected_configs_dict_when_reorg_dict_contains_only_one_label_and_limits_test_and_description_keys_do_not_exist(mocker):
@@ -98,9 +98,9 @@ def test_tlm_json_parser_parseTlmConfJson_returns_expected_configs_dict_when_reo
 
     # Assert
     assert tlm_json_parser.parseJson.call_count == 1
-    assert tlm_json_parser.parseJson.call_args_list[0].args == (arg_file_path, )
+    assert tlm_json_parser.parseJson.call_args_list[0][0] == (arg_file_path, )
     assert tlm_json_parser.reorganizeTlmDict.call_count == 1
-    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0].args == (fake_data, )
+    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0][0] == (fake_data, )
     assert result == expected_result
 
 def test_tlm_json_parser_parseTlmConfJson_returns_expected_configs_dict_when_reorg_dict_contains_multiple_labels_and_limits_test_and_description_keys_do_not_exist(mocker):
@@ -133,9 +133,9 @@ def test_tlm_json_parser_parseTlmConfJson_returns_expected_configs_dict_when_reo
 
     # Assert
     assert tlm_json_parser.parseJson.call_count == 1
-    assert tlm_json_parser.parseJson.call_args_list[0].args == (arg_file_path, )
+    assert tlm_json_parser.parseJson.call_args_list[0][0] == (arg_file_path, )
     assert tlm_json_parser.reorganizeTlmDict.call_count == 1
-    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0].args == (fake_data, )
+    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0][0] == (fake_data, )
     assert result == expected_result
 
 def test_tlm_json_parser_parseTlmConfJson_returns_expected_configs_dict_when_reorg_dict_contains_only_one_label_and_order_key_does_exist(mocker):
@@ -167,9 +167,9 @@ def test_tlm_json_parser_parseTlmConfJson_returns_expected_configs_dict_when_reo
 
     # Assert
     assert tlm_json_parser.parseJson.call_count == 1
-    assert tlm_json_parser.parseJson.call_args_list[0].args == (arg_file_path, )
+    assert tlm_json_parser.parseJson.call_args_list[0][0] == (arg_file_path, )
     assert tlm_json_parser.reorganizeTlmDict.call_count == 1
-    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0].args == (fake_data, )
+    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0][0] == (fake_data, )
     assert result == expected_result
 
 def test_tlm_json_parser_parseTlmConfJson_returns_expected_configs_dict_when_reorg_dict_contains_more_than_one_label_and_order_key_does_not_exist(mocker):
@@ -203,9 +203,9 @@ def test_tlm_json_parser_parseTlmConfJson_returns_expected_configs_dict_when_reo
 
     # Assert
     assert tlm_json_parser.parseJson.call_count == 1
-    assert tlm_json_parser.parseJson.call_args_list[0].args == (arg_file_path, )
+    assert tlm_json_parser.parseJson.call_args_list[0][0] == (arg_file_path, )
     assert tlm_json_parser.reorganizeTlmDict.call_count == 1
-    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0].args == (fake_data, )
+    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0][0] == (fake_data, )
     assert result == expected_result
 
 def test_tlm_json_parser_parseTlmConfJson_returns_expected_configs_dict_when_reorg_dict_contains_more_than_one_label_and_order_key_does_exist(mocker):
@@ -266,9 +266,9 @@ def test_tlm_json_parser_parseTlmConfJson_returns_expected_configs_dict_when_reo
 
     # Assert
     assert tlm_json_parser.parseJson.call_count == 1
-    assert tlm_json_parser.parseJson.call_args_list[0].args == (arg_file_path, )
+    assert tlm_json_parser.parseJson.call_args_list[0][0] == (arg_file_path, )
     assert tlm_json_parser.reorganizeTlmDict.call_count == 1
-    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0].args == (fake_data, )
+    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0][0] == (fake_data, )
     assert result == expected_result
 
 def test_tlm_json_parser_parseTlmConfJson_returns_expected_configs_dict_when_reorg_dict_contains_more_than_one_label_and_limits_are_interpreted_as_empty_lists(mocker):
@@ -329,9 +329,9 @@ def test_tlm_json_parser_parseTlmConfJson_returns_expected_configs_dict_when_reo
 
     # Assert
     assert tlm_json_parser.parseJson.call_count == 1
-    assert tlm_json_parser.parseJson.call_args_list[0].args == (arg_file_path, )
+    assert tlm_json_parser.parseJson.call_args_list[0][0] == (arg_file_path, )
     assert tlm_json_parser.reorganizeTlmDict.call_count == 1
-    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0].args == (fake_data, )
+    assert tlm_json_parser.reorganizeTlmDict.call_args_list[0][0] == (fake_data, )
     assert result == expected_result
 
 # reorganizeTlmDict tests
@@ -413,7 +413,7 @@ def test_tlm_json_parser_str2lst_returns_call_to_ast_literal_eval_which_receive_
 
     # Assert
     assert tlm_json_parser.ast.literal_eval.call_count == 1
-    assert tlm_json_parser.ast.literal_eval.call_args_list[0].args == (arg_string, )
+    assert tlm_json_parser.ast.literal_eval.call_args_list[0][0] == (arg_string, )
     assert result == expected_result
 
 def test_tlm_json_parser_str2lst_prints_message_when_ast_literal_eval_receives_given_string_but_raises_exception(mocker):
@@ -428,9 +428,9 @@ def test_tlm_json_parser_str2lst_prints_message_when_ast_literal_eval_receives_g
 
     # Assert
     assert tlm_json_parser.ast.literal_eval.call_count == 1
-    assert tlm_json_parser.ast.literal_eval.call_args_list[0].args == (arg_string, )
+    assert tlm_json_parser.ast.literal_eval.call_args_list[0][0] == (arg_string, )
     assert tlm_json_parser.print.call_count == 1
-    assert tlm_json_parser.print.call_args_list[0].args == ("Unable to process string representation of list", )
+    assert tlm_json_parser.print.call_args_list[0][0] == ("Unable to process string representation of list", )
     assert result == None
 
 # parseJson tests
@@ -452,9 +452,9 @@ def test_tlm_json_parser_parseJson_opens_given_path_and_returns_data_returned_by
     
     # Assert
     assert tlm_json_parser.open.call_count == 1
-    assert tlm_json_parser.open.call_args_list[0].args == (arg_path, 'rb')
+    assert tlm_json_parser.open.call_args_list[0][0] == (arg_path, 'rb')
     assert fake_file.read.call_count == 1
     assert tlm_json_parser.json.loads.call_count == 1
-    assert tlm_json_parser.json.loads.call_args_list[0].args == (fake_file_str, )
+    assert tlm_json_parser.json.loads.call_args_list[0][0] == (fake_file_str, )
     assert fake_file.close.call_count == 1
     assert result == fake_file_data
