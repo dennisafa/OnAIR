@@ -50,7 +50,7 @@ def test_ComplexReasoningInterface__init__sets_self_headers_to_given_headers_and
     # Assert
     assert cut.headers == arg_headers
     assert complex_reasoning_interface.import_plugins.call_count == 1
-    assert complex_reasoning_interface.import_plugins.call_args_list[0].args == (arg_headers, arg__reasoning_plugins)
+    assert complex_reasoning_interface.import_plugins.call_args_list[0][0] == (arg_headers, arg__reasoning_plugins)
     assert cut.reasoning_constructs == forced_return_reasoning_constructs
 
 # update tests
@@ -84,8 +84,8 @@ def test_ComplexReasoningInterface_update_calls_update_with_given_low_level_data
     # Assert
     for i in range(num_fake_reasoning_constructs):
         assert cut.reasoning_constructs[i].update.call_count == 1
-        assert cut.reasoning_constructs[i].update.call_args_list[0].args == ()
-        assert cut.reasoning_constructs[i].update.call_args_list[0].kwargs == {'high_level_data':arg_high_level_data}
+        assert cut.reasoning_constructs[i].update.call_args_list[0][0] == ()
+        assert cut.reasoning_constructs[i].update.call_args_list[0][1] == {'high_level_data':arg_high_level_data}
 
 # check_for_salient_event tests
 def test_ComplexReasoningInterface_salient_event_does_nothing():
@@ -132,5 +132,5 @@ def test_ComplexReasoningInterface_render_reasoning_returns_dict_of_each_ai_cons
     # Assert
     for i in range(num_fake_reasoning_constructs):
         assert cut.reasoning_constructs[i].render_reasoning.call_count == 1
-        assert cut.reasoning_constructs[i].render_reasoning.call_args_list[0].args == ()
+        assert cut.reasoning_constructs[i].render_reasoning.call_args_list[0][0] == ()
     assert result == expected_result

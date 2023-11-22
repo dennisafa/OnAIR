@@ -94,7 +94,7 @@ def test_print_io_print_sim_header_prints_expected_strings(mocker):
 
   # Assert
   for i in range(3):
-    print_io.print.call_args_list[i].args == (expected_print[i], )
+    print_io.print.call_args_list[i][0] == (expected_print[i], )
 
 
 # print_sim_step tests
@@ -113,7 +113,7 @@ def test_print_io_print_sim_step_inserts_given_step_num_into_text(mocker):
   print_io.print_sim_step(arg_step_num)
   
   # Assert
-  assert print_io.print.call_args_list[0].args == (expected_print, )
+  assert print_io.print.call_args_list[0][0] == (expected_print, )
 
 
 # print_separator tests
@@ -131,7 +131,7 @@ def test_print_io_print_separator_uses_bcolors_HEADER_as_default_color_value(moc
   print_io.print_separator()
   
   # Assert
-  assert print_io.print.call_args_list[0].args == (expected_print, )
+  assert print_io.print.call_args_list[0][0] == (expected_print, )
 
 def test_print_io_print_separator_prints_whatever_is_passed_in_as_color_at_start_of_line(mocker):
   # Arrange
@@ -149,7 +149,7 @@ def test_print_io_print_separator_prints_whatever_is_passed_in_as_color_at_start
   
   # Assert
   assert print_io.print.call_count == 1
-  assert print_io.print.call_args_list[0].args == (expected_print, )
+  assert print_io.print.call_args_list[0][0] == (expected_print, )
 
 
 # update_header tests
@@ -169,7 +169,7 @@ def test_print_io_update_header_prints_message_with_bcolors_BOLD_at_start_when_n
 
   # Assert
   assert print_io.print.call_count == 1
-  assert print_io.print.call_args_list[0].args == (expected_print, )
+  assert print_io.print.call_args_list[0][0] == (expected_print, )
 
 def test_print_io_update_header_prints_message_starting_with_whatever_is_given_as_clr(mocker):
   # Arrange
@@ -187,7 +187,7 @@ def test_print_io_update_header_prints_message_starting_with_whatever_is_given_a
 
   # Assert
   assert print_io.print.call_count == 1
-  assert print_io.print.call_args_list[0].args == (expected_print, )
+  assert print_io.print.call_args_list[0][0] == (expected_print, )
 
 
 # print_msg tests
@@ -208,7 +208,7 @@ def test_print_io_print_msg_prints_message_starting_only_with_scolor_HEADER_when
   # Assert
   assert print_io.print.call_count == 2
   for i in range(2):
-   assert print_io.print.call_args_list[i].args == (expected_print[i], )
+   assert print_io.print.call_args_list[i][0] == (expected_print[i], )
 
 def test_print_io_print_msg_raises_KeyError_when_given_clrs_item_not_in_scolors(mocker):
     # Arrange
@@ -237,7 +237,7 @@ def test_print_io_print_msg_prints_only_given_msg_when_given_clrs_is_empty(mocke
 
   # Assert
   assert print_io.print.call_count == 1
-  assert print_io.print.call_args_list[0].args == ("---- " + arg_msg + print_io.bcolors.ENDC, )
+  assert print_io.print.call_args_list[0][0] == ("---- " + arg_msg + print_io.bcolors.ENDC, )
 
 def test_print_io_print_msg_prints_all_scolors_given_in_clrs(mocker):
     # Arrange
@@ -253,8 +253,8 @@ def test_print_io_print_msg_prints_all_scolors_given_in_clrs(mocker):
   # Assert
   assert print_io.print.call_count == len(print_io.scolors.keys()) + 1
   for i in range(len(arg_clrs)):
-    assert print_io.print.call_args_list[i].args == (print_io.scolors[arg_clrs[i]], )
-  assert print_io.print.call_args_list[i + 1].args == ("---- " + arg_msg + print_io.bcolors.ENDC, )
+    assert print_io.print.call_args_list[i][0] == (print_io.scolors[arg_clrs[i]], )
+  assert print_io.print.call_args_list[i + 1][0] == ("---- " + arg_msg + print_io.bcolors.ENDC, )
 
 
 #print_mission_status
@@ -276,9 +276,9 @@ def test_print_io_print_mission_status_only_prints_agent_formatted_status_when_d
   
   # Assert
   assert print_io.format_status.call_count == 1
-  assert print_io.format_status.call_args_list[0].args == (fake_mission_status,)
+  assert print_io.format_status.call_args_list[0][0] == (fake_mission_status,)
   assert print_io.print.call_count == 1
-  assert print_io.print.call_args_list[0].args == (expected_print, )
+  assert print_io.print.call_args_list[0][0] == (expected_print, )
 
 def test_print_io_print_mission_status_only_prints_agent_formatted_status_when_data_given_is_None(mocker):
   # Arrange
@@ -299,9 +299,9 @@ def test_print_io_print_mission_status_only_prints_agent_formatted_status_when_d
   
   # Assert
   assert print_io.format_status.call_count == 1
-  assert print_io.format_status.call_args_list[0].args == (fake_mission_status,)
+  assert print_io.format_status.call_args_list[0][0] == (fake_mission_status,)
   assert print_io.print.call_count == 1
-  assert print_io.print.call_args_list[0].args == (expected_print, )
+  assert print_io.print.call_args_list[0][0] == (expected_print, )
 
 def test_print_io_print_mission_status_only_prints_agent_formatted_status_when_data_given_is_None(mocker):
   # Arrange
@@ -324,10 +324,10 @@ def test_print_io_print_mission_status_only_prints_agent_formatted_status_when_d
   
   # Assert
   assert print_io.format_status.call_count == 1
-  assert print_io.format_status.call_args_list[0].args == (fake_mission_status,)
+  assert print_io.format_status.call_args_list[0][0] == (fake_mission_status,)
   assert print_io.print.call_count == 2
   for i in range(print_io.print.call_count):
-    assert print_io.print.call_args_list[i].args == (expected_print[i], )
+    assert print_io.print.call_args_list[i][0] == (expected_print[i], )
 
 
 # print_diagnosis tests
@@ -347,8 +347,8 @@ def test_print_io_print_diagnosis_only_prints_separators_and_headers_when_status
   # Assert
   assert print_io.print_separator.call_count == 2
   assert print_io.print.call_count == 2
-  assert print_io.print.call_args_list[0].args == (print_io.bcolors.HEADER + print_io.bcolors.BOLD + "DIAGNOSIS INFO: \n" + print_io.bcolors.ENDC, )
-  assert print_io.print.call_args_list[1].args == (print_io.bcolors.HEADER + print_io.bcolors.BOLD + "\nCURRENT ACTIVATIONS: \n" + print_io.bcolors.ENDC, )
+  assert print_io.print.call_args_list[0][0] == (print_io.bcolors.HEADER + print_io.bcolors.BOLD + "DIAGNOSIS INFO: \n" + print_io.bcolors.ENDC, )
+  assert print_io.print.call_args_list[1][0] == (print_io.bcolors.HEADER + print_io.bcolors.BOLD + "\nCURRENT ACTIVATIONS: \n" + print_io.bcolors.ENDC, )
 
 def test_print_io_print_diagnosis_prints_separators_headers_status_and_activations_when_status_list_and_activations_have_items_tree_traversal_unused(mocker):
   # Arrange
@@ -381,14 +381,14 @@ def test_print_io_print_diagnosis_prints_separators_headers_status_and_activatio
   # Assert
   assert print_io.print_separator.call_count == 2
   assert print_io.print.call_count == 2 + num_status + num_activations
-  assert print_io.print.call_args_list[0].args == (print_io.bcolors.HEADER + print_io.bcolors.BOLD + "DIAGNOSIS INFO: \n" + print_io.bcolors.ENDC, )
+  assert print_io.print.call_args_list[0][0] == (print_io.bcolors.HEADER + print_io.bcolors.BOLD + "DIAGNOSIS INFO: \n" + print_io.bcolors.ENDC, )
   for i in range(num_status):
-    assert print_io.print.call_args_list[1 + i].args == (fake_status[i][0] + ': ' + fake_format, )
-    assert print_io.format_status.call_args_list[i].args == (fake_status[i][1], )
-  assert print_io.print.call_args_list[1 + num_status].args == (print_io.bcolors.HEADER + print_io.bcolors.BOLD + "\nCURRENT ACTIVATIONS: \n" + print_io.bcolors.ENDC, )
+    assert print_io.print.call_args_list[1 + i][0] == (fake_status[i][0] + ': ' + fake_format, )
+    assert print_io.format_status.call_args_list[i][0] == (fake_status[i][1], )
+  assert print_io.print.call_args_list[1 + num_status][0] == (print_io.bcolors.HEADER + print_io.bcolors.BOLD + "\nCURRENT ACTIVATIONS: \n" + print_io.bcolors.ENDC, )
   for i in range(num_activations):
-    assert print_io.print.call_args_list[2 + num_status + i].args == ('---' + fake_str, )
-    assert print_io.str.call_args_list[i].args == (fake_activations[i], )
+    assert print_io.print.call_args_list[2 + num_status + i][0] == ('---' + fake_str, )
+    assert print_io.str.call_args_list[i][0] == (fake_activations[i], )
 
 
 # subsystem_status_str tests
@@ -416,9 +416,9 @@ def test_print_io_subsystem_status_str_returns_expected_string_when_stat_exists_
 
   # Assert
   assert print_io.str.call_count == 3
-  assert print_io.str.call_args_list[0].args == (fake_type, )
-  assert print_io.str.call_args_list[1].args == (fake_stat, )
-  assert print_io.str.call_args_list[2].args == (fake_uncertainty, )
+  assert print_io.str.call_args_list[0][0] == (fake_type, )
+  assert print_io.str.call_args_list[1][0] == (fake_stat, )
+  assert print_io.str.call_args_list[2][0] == (fake_uncertainty, )
   assert result == expected_s
   
 

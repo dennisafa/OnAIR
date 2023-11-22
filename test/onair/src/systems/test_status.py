@@ -26,7 +26,7 @@ def test_Status__init__with_empty_args_initializes_name_and_calls_set_status_wit
     # Assert
     assert cut.name == 'MISSION'
     assert cut.set_status.call_count == 1
-    assert cut.set_status.call_args_list[0].args == ('---', -1.0)
+    assert cut.set_status.call_args_list[0][0] == ('---', -1.0)
 
 def test_Status__init__with_valid_args_initializes_name_and_calls_set_status_with_expected_values(mocker):
     # Arrange
@@ -43,7 +43,7 @@ def test_Status__init__with_valid_args_initializes_name_and_calls_set_status_wit
     # Assert
     assert cut.name == arg_name
     assert cut.set_status.call_count == 1
-    assert cut.set_status.call_args_list[0].args == (arg_status, arg_bayesian_conf)
+    assert cut.set_status.call_args_list[0][0] == (arg_status, arg_bayesian_conf)
 
 # tests for set status
 def test_Status_set_status_when_both_args_are_provided_and_valid_sets_variables_to_expected_values():

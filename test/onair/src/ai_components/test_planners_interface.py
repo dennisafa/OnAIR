@@ -49,7 +49,7 @@ def test_PlannersInterface__init__sets_self_headers_to_given_headers_and_sets_se
     # Assert
     assert cut.headers == arg_headers
     assert planners_interface.import_plugins.call_count == 1
-    assert planners_interface.import_plugins.call_args_list[0].args == (arg_headers, arg__planner_plugins)
+    assert planners_interface.import_plugins.call_args_list[0][0] == (arg_headers, arg__planner_plugins)
     assert cut.ai_constructs == forced_return_ai_constructs
 
 # update tests

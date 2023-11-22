@@ -116,6 +116,6 @@ def test_AIPlugIn__init__sets_instance_values_to_given_args_when_given__headers_
 
     # Assert
     assert core.len.call_count == 1
-    assert core.len.call_args_list[0].args == (arg__headers,)
+    assert core.len.call_args_list[0][0] == (arg__headers,)
     assert cut.component_name == arg__name
     assert cut.headers == arg__headers

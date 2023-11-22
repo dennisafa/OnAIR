@@ -51,9 +51,9 @@ def test_Simulator__init__creates_Vehicle_and_Agent(mocker):
     # Assert
     assert cut.simData == arg_dataSource
     assert sim.VehicleRepresentation.call_count == 1
-    assert sim.VehicleRepresentation.call_args_list[0].args == (fake_headers, fake_tests, arg_knowledge_rep_plugin_list)
+    assert sim.VehicleRepresentation.call_args_list[0][0] == (fake_headers, fake_tests, arg_knowledge_rep_plugin_list)
     assert sim.Agent.call_count == 1
-    assert sim.Agent.call_args_list[0].args == (fake_vehicle, arg_learners_plugin_list, arg_planners_plugin_list, arg_complex_plugin_list)
+    assert sim.Agent.call_args_list[0][0] == (fake_vehicle, arg_learners_plugin_list, arg_planners_plugin_list, arg_complex_plugin_list)
     assert cut.agent == fake_agent
 
 # run_sim tests
@@ -78,9 +78,9 @@ def test_Simulator_run_sim_simData_never_has_more_so_loop_does_not_run_and_diagn
     assert sim.print_sim_header.call_count == 0
     assert sim.print_msg.call_count == 0
     assert cut.simData.has_more.call_count == 1
-    assert cut.simData.has_more.call_args_list[0].args == ()
+    assert cut.simData.has_more.call_args_list[0][0] == ()
     assert cut.agent.diagnose.call_count == 1
-    assert cut.agent.diagnose.call_args_list[0].args == (fake_time_step, )
+    assert cut.agent.diagnose.call_args_list[0][0] == (fake_time_step, )
     assert result == fake_diagnosis
 
 def test_Simulator_run_sim_prints_header_when_given_IO_Flag_is_equal_to_True(mocker):
@@ -101,7 +101,7 @@ def test_Simulator_run_sim_prints_header_when_given_IO_Flag_is_equal_to_True(moc
 
     # Assert
     assert sim.print_sim_header.call_count == 1
-    assert sim.print_sim_header.call_args_list[0].args == ()
+    assert sim.print_sim_header.call_args_list[0][0] == ()
     assert sim.print_msg.call_count == 0
     assert result == fake_diagnosis # check we ran through the method correctly
 
@@ -124,7 +124,7 @@ def test_Simulator_run_sim_prints_wait_message_when_given_IO_Flag_is_the_str_str
     # Assert
     assert sim.print_sim_header.call_count == 0
     assert sim.print_msg.call_count == 1
-    assert sim.print_msg.call_args_list[0].args == ('Please wait...\n', )
+    assert sim.print_msg.call_args_list[0][0] == ('Please wait...\n', )
     assert result == fake_diagnosis # check we ran through the method correctly
 
 def test_Simulator_run_sim_runs_until_has_more_is_false(mocker):
@@ -156,15 +156,15 @@ def test_Simulator_run_sim_runs_until_has_more_is_false(mocker):
     assert sim.print_msg.call_count == 0
     assert cut.simData.get_next.call_count == num_fake_steps
     for i in range(num_fake_steps):
-        assert cut.simData.get_next.call_args_list[i].args == ()
+        assert cut.simData.get_next.call_args_list[i][0] == ()
     assert cut.agent.reason.call_count == num_fake_steps
     for i in range(num_fake_steps):
-        assert cut.agent.reason.call_args_list[i].args == (fake_next, )
+        assert cut.agent.reason.call_args_list[i][0] == (fake_next, )
     assert cut.IO_check.call_count == num_fake_steps
     for i in range(num_fake_steps):
-        assert cut.IO_check.call_args_list[i].args == (i, fake_IO_Flag, )
+        assert cut.IO_check.call_args_list[i][0] == (i, fake_IO_Flag, )
     assert cut.agent.diagnose.call_count == 1
-    assert cut.agent.diagnose.call_args_list[0].args == (num_fake_steps, )
+    assert cut.agent.diagnose.call_args_list[0][0] == (num_fake_steps, )
     assert result == fake_diagnosis
 
 def test_Simulator_run_sim_diagnose_always_performed_when_fault_is_on_first_time_step(mocker):
@@ -194,7 +194,7 @@ def test_Simulator_run_sim_diagnose_always_performed_when_fault_is_on_first_time
     assert cut.agent.reason.call_count == 1 # verifies in loop
     assert cut.IO_check.call_count == 1 # verifies in loop
     assert cut.agent.diagnose.call_count == 1
-    assert cut.agent.diagnose.call_args_list[0].args == (0, )
+    assert cut.agent.diagnose.call_args_list[0][0] == (0, )
     assert result == fake_diagnosis # check we ran through the method correctly
 
 def test_Simulator_run_sim_diagnose_is_not_performed_again_when_faults_are_consecutive_until_the_hundreth_step_after_last_diagnosis_and_returns_last_diagnosis(mocker):
@@ -224,16 +224,16 @@ def test_Simulator_run_sim_diagnose_is_not_performed_again_when_faults_are_conse
     # Assert
     assert cut.simData.get_next.call_count == num_fake_steps
     for i in range(num_fake_steps):
-        assert cut.simData.get_next.call_args_list[i].args == ()
+        assert cut.simData.get_next.call_args_list[i][0] == ()
     assert cut.agent.reason.call_count == num_fake_steps
     for i in range(num_fake_steps):
-        assert cut.agent.reason.call_args_list[i].args == (fake_next, )
+        assert cut.agent.reason.call_args_list[i][0] == (fake_next, )
     assert cut.IO_check.call_count == num_fake_steps
     for i in range(num_fake_steps):
-        assert cut.IO_check.call_args_list[i].args == (i, fake_IO_Flag, )
+        assert cut.IO_check.call_args_list[i][0] == (i, fake_IO_Flag, )
     assert cut.agent.diagnose.call_count == ceil(num_fake_steps/sim.DIAGNOSIS_INTERVAL)
     for i in range(cut.agent.diagnose.call_count):
-        assert cut.agent.diagnose.call_args_list[i].args == (i * sim.DIAGNOSIS_INTERVAL, )
+        assert cut.agent.diagnose.call_args_list[i][0] == (i * sim.DIAGNOSIS_INTERVAL, )
     assert result == fake_diagnoses[-1] # check we actually got the last diagnosis
 
 # set_benchmark_data tests
@@ -251,7 +251,7 @@ def test_Simulator_set_benchmark_data_sends_agent_supervised_learning_set_benchm
 
     # Assert
     assert cut.agent.supervised_learning.set_benchmark_data.call_count == 1
-    assert cut.agent.supervised_learning.set_benchmark_data.call_args_list[0].args == (arg_filepath, arg_files, arg_indices, )
+    assert cut.agent.supervised_learning.set_benchmark_data.call_args_list[0][0] == (arg_filepath, arg_files, arg_indices, )
 
 # IO_check tests
 def test_Simulator_IO_check_prints_sim_step_and_mission_status_when_given_IO_Flag_is_True(mocker):
@@ -270,9 +270,9 @@ def test_Simulator_IO_check_prints_sim_step_and_mission_status_when_given_IO_Fla
 
     # Assert
     assert sim.print_sim_step.call_count == 1
-    assert sim.print_sim_step.call_args_list[0].args == (arg_time_step + 1, )
+    assert sim.print_sim_step.call_args_list[0][0] == (arg_time_step + 1, )
     assert sim.print_system_status.call_count == 1
-    assert sim.print_system_status.call_args_list[0].args == (cut.agent, cut.agent.vehicle_rep.curr_data, )
+    assert sim.print_system_status.call_args_list[0][0] == (cut.agent, cut.agent.vehicle_rep.curr_data, )
 
 def test_Simulator_IO_check_does_nothing_when_given_IO_Flag_is_not_True(mocker):
     # Arrange

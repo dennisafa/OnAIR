@@ -74,9 +74,9 @@ def test_OnAirDataSource__init__sets_instance_variables_as_expected_and_calls_pa
     assert pytest.cut.all_headers == fake_configs['data_labels']
     assert pytest.cut.sim_data == {}
     assert pytest.cut.parse_meta_data_file.call_count == 1
-    assert pytest.cut.parse_meta_data_file.call_args_list[0].args == (arg_metadataFile, arg_ss_breakdown, )
+    assert pytest.cut.parse_meta_data_file.call_args_list[0][0] == (arg_metadataFile, arg_ss_breakdown, )
     assert pytest.cut.process_data_file.call_count == 1
-    assert pytest.cut.process_data_file.call_args_list[0].args == (arg_rawDataFile, )
+    assert pytest.cut.process_data_file.call_args_list[0][0] == (arg_rawDataFile, )
     # assert pytest.cut.binning_configs == fake_configs
     assert pytest.cut.binning_configs['subsystem_assignments'] == fake_configs['subsystem_assignments']
     assert pytest.cut.binning_configs['test_assignments'] == fake_configs['test_assignments']

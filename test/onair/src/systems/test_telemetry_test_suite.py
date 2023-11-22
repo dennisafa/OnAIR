@@ -92,7 +92,7 @@ def test_TelemetryTestSuite_execute_suite_sets_latests_results_to_list_of_run_te
     # Assert
     assert cut.run_tests.call_count == num_items_in_update
     for i in range(num_items_in_update):
-        assert cut.run_tests.call_args_list[i].args == (i, arg_update_frame[i], arg_sync_data, )
+        assert cut.run_tests.call_args_list[i][0] == (i, arg_update_frame[i], arg_sync_data, )
     assert cut.latest_results == expected_results
 
 def test_TelemetryTestSuite_execute_suite_default_arg_sync_data_is_empty_map(mocker):
@@ -107,7 +107,7 @@ def test_TelemetryTestSuite_execute_suite_default_arg_sync_data_is_empty_map(moc
     cut.execute_suite(arg_update_frame)
 
     # Assert
-    assert cut.run_tests.call_args_list[0].args == (0, arg_update_frame[0], {})
+    assert cut.run_tests.call_args_list[0][0] == (0, arg_update_frame[0], {})
 
 # run_tests tests
 def test_TelemetryTestSuite_run_tests_return_Status_object_based_upon_given_header_index_but_does_not_append_to_status_when_given_header_index_leads_to_empty_tests(mocker):
@@ -133,9 +133,9 @@ def test_TelemetryTestSuite_run_tests_return_Status_object_based_upon_given_head
 
     # Assert
     assert cut.calc_single_status.call_count == 1
-    assert cut.calc_single_status.call_args_list[0].args == ([], )
+    assert cut.calc_single_status.call_args_list[0][0] == ([], )
     assert telemetry_test_suite.Status.call_count == 1
-    assert telemetry_test_suite.Status.call_args_list[0].args == (expected_datafield, fake_bayesian[0], fake_bayesian[1])
+    assert telemetry_test_suite.Status.call_args_list[0][0] == (expected_datafield, fake_bayesian[0], fake_bayesian[1])
     assert result == expected_result
 
 def test_TelemetryTestSuite_run_tests_return_Status_object_based_upon_given_header_index_appends_status_when_given_header_index_leads_to_a_single_test_not_named_SYNC(mocker):
@@ -171,11 +171,11 @@ def test_TelemetryTestSuite_run_tests_return_Status_object_based_upon_given_head
 
     # Assert
     assert cut.state.call_count == 1
-    assert cut.state.call_args_list[0].args == (arg_test_val, fake_tests[0][1:], cut.epsilon)
+    assert cut.state.call_args_list[0][0] == (arg_test_val, fake_tests[0][1:], cut.epsilon)
     assert cut.calc_single_status.call_count == 1
-    assert cut.calc_single_status.call_args_list[0].args == ([fake_stat], )
+    assert cut.calc_single_status.call_args_list[0][0] == ([fake_stat], )
     assert telemetry_test_suite.Status.call_count == 1
-    assert telemetry_test_suite.Status.call_args_list[0].args == (expected_datafield, fake_bayesian[0], fake_bayesian[1])
+    assert telemetry_test_suite.Status.call_args_list[0][0] == (expected_datafield, fake_bayesian[0], fake_bayesian[1])
     assert result == expected_result
 
 def test_TelemetryTestSuite_run_tests_return_Status_object_based_upon_given_header_index_appends_status_with_any_updates_where_vars_in_sync_data_keys_when_given_header_index_leads_to_multiple_tests(mocker):
@@ -222,11 +222,11 @@ def test_TelemetryTestSuite_run_tests_return_Status_object_based_upon_given_head
     # Assert
     assert cut.state.call_count == num_fake_tests
     for i in range(num_fake_tests):
-        assert cut.state.call_args_list[i].args == (arg_test_val, fake_sync_vars[i], cut.epsilon)
+        assert cut.state.call_args_list[i][0] == (arg_test_val, fake_sync_vars[i], cut.epsilon)
     assert cut.calc_single_status.call_count == 1
-    assert cut.calc_single_status.call_args_list[0].args == (expected_stats, )
+    assert cut.calc_single_status.call_args_list[0][0] == (expected_stats, )
     assert telemetry_test_suite.Status.call_count == 1
-    assert telemetry_test_suite.Status.call_args_list[0].args == (expected_datafield, fake_bayesian[0], fake_bayesian[1])
+    assert telemetry_test_suite.Status.call_args_list[0][0] == (expected_datafield, fake_bayesian[0], fake_bayesian[1])
     assert result == expected_result
   
 # get_latest_result tests
@@ -829,7 +829,7 @@ def test_TelemetryTestSuite_calc_single_status_returns_tuple_of_value_from_call_
 
     # Assert
     assert telemetry_test_suite.Counter.call_count == 1
-    assert telemetry_test_suite.Counter.call_args_list[0].args == (arg_status_list, )
+    assert telemetry_test_suite.Counter.call_args_list[0][0] == (arg_status_list, )
     assert result == (fake_max_occurrence, 1.0)
 
 def test_TelemetryTestSuite_calc_single_status_returns_tuple_of_value_from_call_to_most_common_on_occurrences_and_1_pt_0_when_mode_is_str_max(mocker):
@@ -850,7 +850,7 @@ def test_TelemetryTestSuite_calc_single_status_returns_tuple_of_value_from_call_
 
     # Assert
     assert telemetry_test_suite.Counter.call_count == 1
-    assert telemetry_test_suite.Counter.call_args_list[0].args == (arg_status_list, )
+    assert telemetry_test_suite.Counter.call_args_list[0][0] == (arg_status_list, )
     assert result == (fake_max_occurrence, 1.0)
 
 def test_TelemetryTestSuite_calc_single_status_returns_tuple_of_value_from_call_to_most_common_on_occurrences_and_ratio_of_max_occurrence_over_len_given_status_list_when_mode_is_str_distr(mocker):
@@ -877,7 +877,7 @@ def test_TelemetryTestSuite_calc_single_status_returns_tuple_of_value_from_call_
 
     # Assert
     assert telemetry_test_suite.Counter.call_count == 1
-    assert telemetry_test_suite.Counter.call_args_list[0].args == (arg_status_list, )
+    assert telemetry_test_suite.Counter.call_args_list[0][0] == (arg_status_list, )
     assert result == (fake_max_occurrence, expected_float)
 
 def test_TelemetryTestSuite_calc_single_status_returns_tuple_of_value_from_call_to_most_common_on_occurrences_and_1_pt_0_when_mode_is_str_strict_and_no_occurrences_of_str_RED(mocker):
@@ -904,7 +904,7 @@ def test_TelemetryTestSuite_calc_single_status_returns_tuple_of_value_from_call_
 
     # Assert
     assert telemetry_test_suite.Counter.call_count == 1
-    assert telemetry_test_suite.Counter.call_args_list[0].args == (arg_status_list, )
+    assert telemetry_test_suite.Counter.call_args_list[0][0] == (arg_status_list, )
     assert result == (fake_max_occurrence, 1.0)
 
 def test_TelemetryTestSuite_calc_single_status_returns_tuple_of_str_RED_and_1_pt_0_when_mode_is_str_strict_and_ratio_of_RED_occurrence_over_len_given_status_list_with_occurrences_of_str_RED(mocker):
@@ -933,7 +933,7 @@ def test_TelemetryTestSuite_calc_single_status_returns_tuple_of_str_RED_and_1_pt
 
     # Assert
     assert telemetry_test_suite.Counter.call_count == 1
-    assert telemetry_test_suite.Counter.call_args_list[0].args == (arg_status_list, )
+    assert telemetry_test_suite.Counter.call_args_list[0][0] == (arg_status_list, )
     assert result == ('RED', expected_float)
 
 def test_TelemetryTestSuite_calc_single_status_default_given_mode_is_str_strict(mocker):
@@ -961,7 +961,7 @@ def test_TelemetryTestSuite_calc_single_status_default_given_mode_is_str_strict(
 
     # Assert
     assert telemetry_test_suite.Counter.call_count == 1
-    assert telemetry_test_suite.Counter.call_args_list[0].args == (arg_status_list, )
+    assert telemetry_test_suite.Counter.call_args_list[0][0] == (arg_status_list, )
     assert result == ('RED', expected_float)
 
 # get_suite_status
@@ -991,7 +991,7 @@ def test_TelemetryTestSuite_get_suite_status_returns_value_from_call_to_calc_sin
 
     # Assert
     assert cut.calc_single_status.call_count == 1
-    assert cut.calc_single_status.call_args_list[0].args == ([], )
+    assert cut.calc_single_status.call_args_list[0][0] == ([], )
     assert result == expected_result
 
 def test_TelemetryTestSuite_get_suite_status_returns_value_from_call_to_calc_single_status_when_it_is_given_list_of_all_statuses_in_latest_results(mocker):
@@ -1021,7 +1021,7 @@ def test_TelemetryTestSuite_get_suite_status_returns_value_from_call_to_calc_sin
 
     # Assert
     assert cut.calc_single_status.call_count == 1
-    assert cut.calc_single_status.call_args_list[0].args == (fake_statuses, )
+    assert cut.calc_single_status.call_args_list[0][0] == (fake_statuses, )
     assert result == expected_result
 
 # get_status_specific_mnemonics

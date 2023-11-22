@@ -29,7 +29,7 @@ def test_parser_util_extract_meta_data_handle_ss_breakdown_returns_call_to_extra
 
     # Assert
     assert parser_util.extract_meta_data.call_count == 1
-    assert parser_util.extract_meta_data.call_args_list[0].args == (arg_configFile, )
+    assert parser_util.extract_meta_data.call_args_list[0][0] == (arg_configFile, )
     assert parser_util.len.call_count == 0
     assert result == expected_result
 
@@ -53,9 +53,9 @@ def test_parser_util_extract_meta_data_handle_ss_breakdown_returns_call_to_extra
 
     # Assert
     assert parser_util.extract_meta_data.call_count == 1
-    assert parser_util.extract_meta_data.call_args_list[0].args == (arg_configFile, )
+    assert parser_util.extract_meta_data.call_args_list[0][0] == (arg_configFile, )
     assert parser_util.len.call_count == 1
-    assert parser_util.len.call_args_list[0].args == (fake_empty_processed_filepath, )
+    assert parser_util.len.call_args_list[0][0] == (fake_empty_processed_filepath, )
     assert result['subsystem_assignments'] == expected_result
 
 def test_parser_util_extract_meta_data_handle_ss_breakdown_returns_call_to_extract_meta_data_given_metadata_file_and_csv_set_to_True_with_dict_def_subsystem_assignments_def_of_call_to_process_filepath_given_configFile_and_kwarg_csv_set_to_True_set_to_single_item_list_str_MISSION_for_each_item_when_given_ss_breakdown_evaluates_to_False(mocker):
@@ -84,9 +84,9 @@ def test_parser_util_extract_meta_data_handle_ss_breakdown_returns_call_to_extra
 
     # Assert
     assert parser_util.extract_meta_data.call_count == 1
-    assert parser_util.extract_meta_data.call_args_list[0].args == (arg_configFile, )
+    assert parser_util.extract_meta_data.call_args_list[0][0] == (arg_configFile, )
     assert parser_util.len.call_count == 1
-    assert parser_util.len.call_args_list[0].args == (fake_processed_filepath, )
+    assert parser_util.len.call_args_list[0][0] == (fake_processed_filepath, )
     assert result['subsystem_assignments'] == expected_result
 
 # extract_meta_data tests
@@ -123,9 +123,9 @@ def test_parser_util_extract_meta_data_returns_expected_dicts_dict_when_configs_
 
     # Assert
     assert parser_util.parseTlmConfJson.call_count == 1
-    assert parser_util.parseTlmConfJson.call_args_list[0].args == (arg_meta_data_file, )
+    assert parser_util.parseTlmConfJson.call_args_list[0][0] == (arg_meta_data_file, )
     assert parser_util.len.call_count == 1
-    assert parser_util.len.call_args_list[0].args == (fake_subsystem_assignments, )
+    assert parser_util.len.call_args_list[0][0] == (fake_subsystem_assignments, )
     assert parser_util.str2lst.call_count == 0
     assert result == forced_return_parse_tlm
 
@@ -156,7 +156,7 @@ def test_parser_util_extract_meta_data_returns_expected_dicts_dict_when_configs_
 
     # Assert
     assert parser_util.parseTlmConfJson.call_count == 1
-    assert parser_util.parseTlmConfJson.call_args_list[0].args == (arg_meta_data_file, )
+    assert parser_util.parseTlmConfJson.call_args_list[0][0] == (arg_meta_data_file, )
     assert parser_util.str2lst.call_count == 0
     assert result == expected_result
 
@@ -188,7 +188,7 @@ def test_parser_util_extract_meta_data_returns_expected_dicts_dict_when_len_conf
 
     # Assert
     assert parser_util.parseTlmConfJson.call_count == 1
-    assert parser_util.parseTlmConfJson.call_args_list[0].args == (arg_meta_data_file, )
+    assert parser_util.parseTlmConfJson.call_args_list[0][0] == (arg_meta_data_file, )
     assert parser_util.str2lst.call_count == 0
     assert result == expected_result
 
@@ -223,7 +223,7 @@ def test_parser_util_extract_meta_data_returns_expected_dicts_dict_when_len_conf
 
     # Assert
     assert parser_util.parseTlmConfJson.call_count == 1
-    assert parser_util.parseTlmConfJson.call_args_list[0].args == (arg_meta_data_file, )
+    assert parser_util.parseTlmConfJson.call_args_list[0][0] == (arg_meta_data_file, )
     assert parser_util.str2lst.call_count == 0
     assert result == expected_result
 
@@ -269,10 +269,10 @@ def test_parser_util_extract_meta_data_returns_expected_dicts_dict_when_len_conf
 
     # Assert
     assert parser_util.parseTlmConfJson.call_count == 1
-    assert parser_util.parseTlmConfJson.call_args_list[0].args == (arg_meta_data_file, )
+    assert parser_util.parseTlmConfJson.call_args_list[0][0] == (arg_meta_data_file, )
     assert parser_util.str2lst.call_count == expected_str2lst_call_count
     for i in range(expected_str2lst_call_count):
-        assert parser_util.str2lst.call_args_list[i].args == (expected_str2lst_args[i], )
+        assert parser_util.str2lst.call_args_list[i][0] == (expected_str2lst_args[i], )
     assert result == expected_result
 
 def test_parser_util_extract_meta_data_returns_expected_dicts_dict_when_configFiles_len_configs_greater_than_one_and_subsystem_NONE_exists(mocker):
@@ -320,7 +320,7 @@ def test_parser_util_extract_meta_data_returns_expected_dicts_dict_when_configFi
 
     # Assert
     assert parser_util.parseTlmConfJson.call_count == 1
-    assert parser_util.parseTlmConfJson.call_args_list[0].args == (arg_meta_data_file, )
+    assert parser_util.parseTlmConfJson.call_args_list[0][0] == (arg_meta_data_file, )
     assert result == expected_result
 
 # floatify_input tests
@@ -369,7 +369,7 @@ def test_parser_util_flotify_input_returns_list_of_size_one_that_contains_the_ca
 
     # Assert
     assert float.call_count == 1
-    assert float.call_args_list[0].args == (arg__input[0], )
+    assert float.call_args_list[0][0] == (arg__input[0], )
     assert result == [expected_result]
 
 def test_parser_util_flotify_input_returns_list_of_size_one_that_contains_the_second_call_to_float_after_replace_call_when_single_Exception_is_thrown(mocker):
@@ -390,9 +390,9 @@ def test_parser_util_flotify_input_returns_list_of_size_one_that_contains_the_se
 
     # Assert
     assert parser_util.float.call_count == 1
-    assert parser_util.float.call_args_list[0].args == (arg__input[0], )
+    assert parser_util.float.call_args_list[0][0] == (arg__input[0], )
     assert parser_util.convert_str_to_timestamp.call_count == 1
-    assert parser_util.convert_str_to_timestamp.call_args_list[0].args == (fake_item, )
+    assert parser_util.convert_str_to_timestamp.call_args_list[0][0] == (fake_item, )
     assert result == [expected_result]
 
 def test_parser_util_flotify_input_returns_list_of_size_one_that_contains_0_dot_0_when_two_Exceptions_are_thrown_and_remove_str_is_False(mocker):
@@ -411,9 +411,9 @@ def test_parser_util_flotify_input_returns_list_of_size_one_that_contains_0_dot_
 
     # Assert
     assert parser_util.float.call_count == 1
-    assert parser_util.float.call_args_list[0].args == (arg__input[0], )
+    assert parser_util.float.call_args_list[0][0] == (arg__input[0], )
     assert parser_util.convert_str_to_timestamp.call_count == 1
-    assert parser_util.convert_str_to_timestamp.call_args_list[0].args == (arg__input[0], )
+    assert parser_util.convert_str_to_timestamp.call_args_list[0][0] == (arg__input[0], )
     assert result == [0.0]
 
 def test_parser_util_flotify_input_default_arg_remove_str_is_False(mocker):
@@ -448,9 +448,9 @@ def test_parser_util_flotify_input_returns_empty_list_when_two_Exceptions_are_th
 
     # Assert
     assert parser_util.float.call_count == 1
-    assert parser_util.float.call_args_list[0].args == (arg__input[0], )
+    assert parser_util.float.call_args_list[0][0] == (arg__input[0], )
     assert parser_util.convert_str_to_timestamp.call_count == 1
-    assert parser_util.convert_str_to_timestamp.call_args_list[0].args == (fake_item, )
+    assert parser_util.convert_str_to_timestamp.call_args_list[0][0] == (fake_item, )
     assert result == []
 
 def test_parser_util_flotify_input_returns_call_to_float_that_was_given___input_item_when_type_of_item_is_not_str_and_there_is_single_item(mocker):
@@ -584,7 +584,7 @@ def test_parser_util_convert_str_to_timestamp_returns_to_datetime_timestamp_on_s
 
     # Assert
     assert parser_util.to_datetime.call_count == 1
-    assert parser_util.to_datetime.call_args_list[0].args == (arg_time_str, )
+    assert parser_util.to_datetime.call_args_list[0][0] == (arg_time_str, )
     assert fake_dt_module.datetime.strptime.call_count == 0
     assert fake_datetime.timestamp.call_count == 1 
     assert result == fake_timestamp
@@ -609,9 +609,9 @@ def test_parser_util_convert_str_to_timestamp_returns_datetime_strptime_timestam
 
     # Assert
     assert parser_util.to_datetime.call_count == 1
-    assert parser_util.to_datetime.call_args_list[0].args == (arg_time_str, )
+    assert parser_util.to_datetime.call_args_list[0][0] == (arg_time_str, )
     assert fake_dt_module.datetime.strptime.call_count == 1
-    assert fake_dt_module.datetime.strptime.call_args_list[0].args == (arg_time_str[:24], '%Y-%j-%H:%M:%S.%f')
+    assert fake_dt_module.datetime.strptime.call_args_list[0][0] == (arg_time_str[:24], '%Y-%j-%H:%M:%S.%f')
     assert fake_datetime.timestamp.call_count == 1
     assert result == fake_timestamp
 
@@ -636,8 +636,8 @@ def test_parser_util_convert_str_to_timestamp_raises_error_when_both_to_datetime
 
     # Assert
     assert parser_util.to_datetime.call_count == 1
-    assert parser_util.to_datetime.call_args_list[0].args == (arg_time_str, )
+    assert parser_util.to_datetime.call_args_list[0][0] == (arg_time_str, )
     assert fake_dt_module.datetime.strptime.call_count == 1
-    assert fake_dt_module.datetime.strptime.call_args_list[0].args == (arg_time_str[:24], '%Y-%j-%H:%M:%S.%f')
+    assert fake_dt_module.datetime.strptime.call_args_list[0][0] == (arg_time_str[:24], '%Y-%j-%H:%M:%S.%f')
     assert fake_datetime.timestamp.call_count == 0
     assert e_info.match('')

@@ -36,7 +36,7 @@ def test_VehicleRepresentation__init__asserts_when_len_given_headers_is_not_eq_t
     # Assert
     assert vehicle_rep.len.call_count == 2
     call_list = set({})
-    [call_list.add(vehicle_rep.len.call_args_list[i].args) for i in range(len(vehicle_rep.len.call_args_list))]
+    [call_list.add(vehicle_rep.len.call_args_list[i][0]) for i in range(len(vehicle_rep.len.call_args_list))]
     assert call_list == {(arg_headers, ), (arg_tests, )}
     assert e_info.match('')
 
@@ -60,11 +60,11 @@ def test_VehicleRepresentation__init__sets_status_to_Status_with_str_MISSION_and
 
     # Assert
     assert vehicle_rep.Status.call_count == 1
-    assert vehicle_rep.Status.call_args_list[0].args == ('MISSION', )
+    assert vehicle_rep.Status.call_args_list[0][0] == ('MISSION', )
     assert cut.status == fake_status
     assert cut.headers == arg_headers
     assert vehicle_rep.TelemetryTestSuite.call_count == 1
-    assert vehicle_rep.TelemetryTestSuite.call_args_list[0].args == (arg_headers, arg_tests)
+    assert vehicle_rep.TelemetryTestSuite.call_args_list[0][0] == (arg_headers, arg_tests)
     assert cut.test_suite == fake_test_suite
     assert cut.curr_data == ['-'] * fake_len
 
@@ -139,7 +139,7 @@ def test_VehicleRepresentation_update_constructs_calls_update_on_each_knowledge_
     # Assert
     for i in range(num_fake_constructs):
         fake_constructs[i].update.call_count == 1
-        fake_constructs[i].update.call_args_list[0].args == (arg_frame, )
+        fake_constructs[i].update.call_args_list[0][0] == (arg_frame, )
 
 # update_curr_data tests
 def test_VehicleRepresentation_update_does_nothing_when_given_frame_is_empty(mocker):
@@ -234,7 +234,7 @@ def test_VehicleRepresentation_get_current_faulting_mnemonics_returns_test_suite
 
     # Assert
     assert cut.test_suite.get_status_specific_mnemonics.call_count == 1
-    assert cut.test_suite.get_status_specific_mnemonics.call_args_list[0].args == ()
+    assert cut.test_suite.get_status_specific_mnemonics.call_args_list[0][0] == ()
     assert result == expected_result
 
 # get_current_data tests
@@ -281,7 +281,7 @@ def test_VehicleRepresentation_get_status_returns_status_call_to_get_status(mock
 
     # Assert
     assert cut.status.get_status.call_count == 1
-    assert cut.status.get_status.call_args_list[0].args == ()
+    assert cut.status.get_status.call_args_list[0][0] == ()
     assert result == expected_result
 
 # get_bayesian_status tests
@@ -299,7 +299,7 @@ def test_VehicleRepresentation_get_bayesian_status_returns_status_call_to_get_ba
 
     # Assert
     assert cut.status.get_bayesian_status.call_count == 1
-    assert cut.status.get_bayesian_status.call_args_list[0].args == ()
+    assert cut.status.get_bayesian_status.call_args_list[0][0] == ()
     assert result == expected_result
 
 # get_batch_status_reports tests
