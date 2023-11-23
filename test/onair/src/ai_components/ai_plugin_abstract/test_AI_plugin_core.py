@@ -46,9 +46,9 @@ def test_AIPlugIn_raises_error_because_of_unimplemented_abstract_methods():
         cut = AIPlugIn.__new__(AIPlugIn)
 
     # Assert
-    assert "Can't instantiate abstract class AIPlugIn with" in e_info.__str__()
-    assert "update" in e_info.__str__()
-    assert "render_reasoning" in e_info.__str__()
+    assert "Can't instantiate abstract class AIPlugIn with" in str(e_info.value)
+    assert "update" in str(e_info.value)
+    assert "render_reasoning" in str(e_info.value)
 
 # Incomplete plugin call tests
 def test_AIPlugIn_raises_error_when_an_inherited_class_is_instantiated_because_abstract_methods_are_not_implemented_by_that_class():
@@ -58,9 +58,9 @@ def test_AIPlugIn_raises_error_when_an_inherited_class_is_instantiated_because_a
         cut = IncompleteFakeAIPlugIn.__new__(IncompleteFakeAIPlugIn)
 
     # Assert
-    assert "Can't instantiate abstract class IncompleteFakeAIPlugIn with" in e_info.__str__()
-    assert "update" in e_info.__str__()
-    assert "render_reasoning" in e_info.__str__()
+    assert "Can't instantiate abstract class IncompleteFakeAIPlugIn with" in str(e_info.value)
+    assert "update" in str(e_info.value)
+    assert "render_reasoning" in str(e_info.value)
 
 def test_AIPlugIn_raises_error_when_an_inherited_class_calls_abstract_methods_in_parent():
     # Act
@@ -71,6 +71,7 @@ def test_AIPlugIn_raises_error_when_an_inherited_class_calls_abstract_methods_in
     for fnc in not_implemented_functions:
         with pytest.raises(NotImplementedError) as e_info:
             fnc()
+        print (str(e_info.value))
         assert "NotImplementedError" in e_info.__str__()
 
 # Complete plugin call tests
