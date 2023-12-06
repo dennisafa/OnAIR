@@ -22,6 +22,8 @@ class Plugin(AIPlugIn):
         self.component_name = name
         self.headers = headers
         self.window_size = window_size
+        self.file = open('kalman_residuals.txt', 'w')
+        self.step = 0
 
         self.kf = simdkalman.KalmanFilter(
         state_transition = [[1,1],[0,1]],        # matrix A
@@ -108,6 +110,8 @@ class Plugin(AIPlugIn):
     def current_attribute_chunk_get_error(self, data):
         residuals = self.generate_residuals_for_given_data(data)
         mean_residuals = abs(self.mean(residuals))
+        self.file.write(f"Step {self.step}: {mean_residuals}\n\n")
+        self.step = self.step + 1
         if (abs(mean_residuals) < 1.5):
                 return False
         return True
