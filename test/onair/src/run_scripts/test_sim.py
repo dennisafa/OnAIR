@@ -105,28 +105,6 @@ def test_Simulator_run_sim_prints_header_when_given_IO_Flag_is_equal_to_True(moc
     assert sim.print_msg.call_count == 0
     assert result == fake_diagnosis # check we ran through the method correctly
 
-def test_Simulator_run_sim_prints_wait_message_when_given_IO_Flag_is_the_str_strict(mocker):
-    # Arrange
-    cut = Simulator.__new__(Simulator)
-    cut.simData = MagicMock()
-    cut.agent = MagicMock()
-
-    fake_diagnosis = MagicMock()
-
-    mocker.patch(sim.__name__ + '.print_sim_header')
-    mocker.patch(sim.__name__ + '.print_msg')
-    mocker.patch.object(cut.simData, 'has_more', return_value=False)
-    mocker.patch.object(cut.agent, 'diagnose', return_value=fake_diagnosis)
-
-    # Act
-    result = cut.run_sim('strict')
-
-    # Assert
-    assert sim.print_sim_header.call_count == 0
-    assert sim.print_msg.call_count == 1
-    assert sim.print_msg.call_args_list[0][0] == ('Please wait...\n', )
-    assert result == fake_diagnosis # check we ran through the method correctly
-
 def test_Simulator_run_sim_runs_until_has_more_is_false(mocker):
     # Arrange
     cut = Simulator.__new__(Simulator)
@@ -235,23 +213,6 @@ def test_Simulator_run_sim_diagnose_is_not_performed_again_when_faults_are_conse
     for i in range(cut.agent.diagnose.call_count):
         assert cut.agent.diagnose.call_args_list[i][0] == (i * sim.DIAGNOSIS_INTERVAL, )
     assert result == fake_diagnoses[-1] # check we actually got the last diagnosis
-
-# set_benchmark_data tests
-def test_Simulator_set_benchmark_data_sends_agent_supervised_learning_set_benchmark_data_given_filepath_files_and_indices(mocker):
-    # Arrange
-    arg_filepath = MagicMock()
-    arg_files = MagicMock()
-    arg_indices = MagicMock()
-
-    cut = Simulator.__new__(Simulator)
-    cut.agent = MagicMock()
-
-    # Act
-    cut.set_benchmark_data(arg_filepath, arg_files, arg_indices)
-
-    # Assert
-    assert cut.agent.supervised_learning.set_benchmark_data.call_count == 1
-    assert cut.agent.supervised_learning.set_benchmark_data.call_args_list[0][0] == (arg_filepath, arg_files, arg_indices, )
 
 # IO_check tests
 def test_Simulator_IO_check_prints_sim_step_and_mission_status_when_given_IO_Flag_is_True(mocker):

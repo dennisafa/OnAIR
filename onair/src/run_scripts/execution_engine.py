@@ -30,8 +30,6 @@ class ExecutionEngine:
 
         # Init Flags
         self.IO_Flag = False
-        self.Dev_Flag = False
-        self.Viz_Flag = False
 
         # Init Paths
         self.dataFilePath = ''
@@ -40,9 +38,6 @@ class ExecutionEngine:
         self.metadataFilePath = ''
         self.metaFile = ''
         self.fullMetaDataFileName = ''
-        self.benchmarkFilePath = ''
-        self.benchmarkFiles = ''
-        self.benchmarkIndices = ''
 
         # Init parsing/sim info
         self.parser_file_name = ''
@@ -91,20 +86,10 @@ class ExecutionEngine:
             ## Parse Optional Data: Flags
             ## 'RUN_FLAGS' must exist, but individual flags return False if missing
             self.IO_Flag = config['RUN_FLAGS'].getboolean('IO_Flag')
-            self.Dev_Flag = config['RUN_FLAGS'].getboolean('Dev_Flag')
-            self.Viz_Flag = config['RUN_FLAGS'].getboolean('Viz_Flag')
 
         except KeyError as e:
             new_message = f"Config file: '{config_filepath}', missing key: {e.args[0]}"
             raise KeyError(new_message) from e
-
-        ## Parse Optional Data: Benchmarks
-        try:
-            self.benchmarkFilePath = config['DEFAULT']['BenchmarkFilePath']
-            self.benchmarkFiles = config['DEFAULT']['BenchmarkFiles'] # Vehicle telemetry data
-            self.benchmarkIndices = config['DEFAULT']['BenchmarkIndices']
-        except:
-            pass
 
     def parse_plugins_dict(self, config_plugin_dict):
         ## Parse Required Data: Plugin name to path dict
@@ -131,16 +116,9 @@ class ExecutionEngine:
                              self.learners_plugin_dict,
                              self.planners_plugin_dict,
                              self.complex_plugin_dict)
-        try:
-            fls = ast.literal_eval(self.benchmarkFiles)
-            fp = os.path.dirname(os.path.realpath(__file__)) + '/../..' + self.benchmarkFilePath
-            bi = ast.literal_eval(self.benchmarkIndices)
-            self.sim.set_benchmark_data(fp, fls, bi)
-        except:
-            pass
 
     def run_sim(self):
-        self.sim.run_sim(self.IO_Flag, self.Dev_Flag, self.Viz_Flag)
+        self.sim.run_sim(self.IO_Flag)
         if self.save_flag:
             self.save_results(self.save_name)
 
@@ -171,8 +149,8 @@ class ExecutionEngine:
 
     def save_results(self, save_name):
         complete_time = strftime("%H-%M-%S", gmtime())
-        save_path = os.environ['ONAIR_SAVE_PATH'] + '/saved/' + save_name + '_' + complete_time
-        os.mkdir(save_path)
+        save_path = os.environ['ONAIR_SAVE_PATH'] + 'saved/' + save_name + '_' + complete_time
+        os.makedirs(save_path, exist_ok=True)
         copy_tree(os.environ['ONAIR_TMP_SAVE_PATH'], save_path)
 
     def set_run_param(self, name, val):

@@ -29,9 +29,8 @@ class Simulator:
         vehicle = VehicleRepresentation(headers, tests, knowledge_rep_plugin_dict)
         self.agent = Agent(vehicle, learners_plugin_dict, planners_plugin_dict, complex_plugin_dict)
 
-    def run_sim(self, IO_Flag=False, dev_flag=False, viz_flag = True):
+    def run_sim(self, IO_Flag=False):
         if IO_Flag == True: print_sim_header()
-        if IO_Flag == 'strict': print_msg('Please wait...\n')
         diagnosis_list = []
         time_step = 0
         last_diagnosis = time_step
@@ -59,10 +58,6 @@ class Simulator:
             diagnosis_list.append(self.agent.diagnose(time_step))
         final_diagnosis = diagnosis_list[-1]
         return final_diagnosis
-
-
-    def set_benchmark_data(self, filepath, files, indices):
-        self.agent.supervised_learning.set_benchmark_data(filepath, files, indices)
 
     def IO_check(self, time_step, IO_Flag):
         if IO_Flag == True:
