@@ -18,11 +18,12 @@ class Plugin(AIPlugin):
 
         # Init some basic parameters, like number of entries for a single file
         self.first_frame = True
-        self.lines_per_file = 10
+        self.lines_per_file = 500
         self.lines_current = 0
         self.current_buffer = [] # List of telemetry points
         self.filename_preamble = "csv_out_"
-        self.filename = ""
+        self.file = ""
+
 
         # Plugin should write each frame of data out to a .csv file
         # low_level_data is optional. Should use the headers provided in __init__
@@ -59,29 +60,28 @@ class Plugin(AIPlugin):
         """
         System should return its diagnosis
         """
+        delimiter = ','
 
         if (self.first_frame):
             # Create file- TODO: make separate function
             date_stamp = datetime.today().strftime('%j_%H_%M')
-            self.file_name = self.filename_preamble + date_stamp + ".csv"
+            file_name = self.filename_preamble + date_stamp + ".csv"
 
             # Write out to file
-            with open(self.file_name, 'a') as file:
-                delimiter = ','
-                file.write(delimiter.join(self.headers) + '\n')
+            self.file = open(file_name, 'w')
+            self.file.write(delimiter.join(self.headers) + '\n')
             self.first_frame = False
-        pass
 
         # Write out to file
-        with open(self.file_name, 'a') as file:
-            delimiter = ','
-            file.write(delimiter.join(self.current_buffer) + '\n')
+        self.file.write(delimiter.join(self.current_buffer) + '\n')
         self.current_buffer = []
         self.lines_current += 1
 
         if (self.lines_per_file != 0 and self.lines_per_file == self.lines_current):
             # Create new file
             date_stamp = datetime.today().strftime('%j_%H_%M')
-            self.file_name = self.filename_preamble + date_stamp + ".csv"
+            self.file.close()
+            file_name = self.filename_preamble + date_stamp + ".csv"
+            self.file = open(file_name, 'w')
 
             self.lines_current = 0
