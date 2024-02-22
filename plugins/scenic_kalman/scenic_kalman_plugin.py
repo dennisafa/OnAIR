@@ -9,10 +9,9 @@
 
 import simdkalman
 import numpy as np
-import matplotlib.pyplot as plt
-from onair.src.ai_components.ai_plugin_abstract.core import AIPlugIn
+from onair.src.ai_components.ai_plugin_abstract.ai_plugin import AIPlugin
 
-class Plugin(AIPlugIn):
+class Plugin(AIPlugin):
     def __init__(self, name, headers, window_size=15):
         """
         :param headers: (int) length of time agent examines
