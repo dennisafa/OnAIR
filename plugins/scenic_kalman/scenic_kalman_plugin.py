@@ -9,7 +9,6 @@
 
 import simdkalman
 import numpy as np
-import matplotlib.pyplot as plt
 from onair.src.ai_components.ai_plugin_abstract.core import AIPlugIn
 
 class Plugin(AIPlugIn):
@@ -23,9 +22,6 @@ class Plugin(AIPlugIn):
         self.component_name = name
         self.headers = headers
         self.window_size = window_size
-        self.residual_threshold = 100
-        self.file = open('kalman_residuals.txt', 'w')
-        self.step = 0
 
         self.kf = simdkalman.KalmanFilter(
         state_transition = [[1,1],[0,1]],      # matrix A
@@ -53,8 +49,8 @@ class Plugin(AIPlugIn):
         """
         System should return its diagnosis
         """
-        broken_attributes = self._frame_diagnosis(self.frames, self.headers)
-        return broken_attributes
+        residuals = self._generate_residuals(self.frames)
+        return residuals
     #### END: Classes mandated by plugin architecture
 
     # Takes in the kf being used, the data, how many prediction "steps" it will make, and an optional initial value
@@ -81,20 +77,3 @@ class Plugin(AIPlugIn):
         else:
             residuals = np.zeros((len(frame),)) # return residual of 0 for frames less than or equal to 2
         return residuals
-
-    # Info: takes a frame of data and generates residuals based Kalman filter smoothing
-    # Returns error if residual is greater than some threshold
-    def _current_frame_get_error(self, frame):
-        residuals = self._generate_residuals(frame)
-        self.file.write(f"Step {self.step}: {residuals}\n\n")
-        self.step = self.step + 1
-        errors = residuals > self.residual_threshold
-        return errors
-
-    def _frame_diagnosis(self, frame, headers):
-        kal_broken_attributes = []
-        errors = self._current_frame_get_error(frame)
-        for attribute_index, error in enumerate(errors):
-            if error and not headers[attribute_index].upper() == 'TIME':
-                kal_broken_attributes.append(headers[attribute_index])
-        return kal_broken_attributes
