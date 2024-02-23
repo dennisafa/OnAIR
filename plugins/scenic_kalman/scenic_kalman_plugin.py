@@ -36,12 +36,17 @@ class Plugin(AIPlugin):
         :return: None
         """
         for data_point_index in range(len(frame)):
+            data = 0.0
+            try:
+                data = float(frame[data_point_index])
+            except ValueError:
+                print("Scenic Kalman: Failed to convert to float: " + frame[data_point_index])
             if len(self.frames) < len(frame): # If the frames variable is empty, append each data point in frame to it, each point wrapped as a list
                 # This is done so the data can have each attribute grouped in one list before being passed to kalman
                 # Ex: [[1:00, 1:01, 1:02, 1:03, 1:04, 1:05], [1, 2, 3, 4, 5]]
-                self.frames.append([float(frame[data_point_index])])
+                self.frames.append([data])
             else:
-                self.frames[data_point_index].append(float(frame[data_point_index]))
+                self.frames[data_point_index].append(data)
                 if len(self.frames[data_point_index]) > self.window_size: # If after adding a point to the frame, that attribute is larger than the window_size, take out the first element
                     self.frames[data_point_index].pop(0)
 
