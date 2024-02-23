@@ -21,7 +21,7 @@ class Plugin(AIPlugin):
         self.lines_per_file = 500
         self.lines_current = 0
         self.current_buffer = [] # List of telemetry points
-        self.filename_preamble = "csv_out_"
+        self.filename_preamble = "cf/dl/csv_out_"
         self.file = ""
 
 
