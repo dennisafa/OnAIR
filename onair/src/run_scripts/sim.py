@@ -62,8 +62,8 @@ class Simulator:
     def IO_check(self, time_step, IO_Flag):
         if IO_Flag == True:
             print_sim_step(time_step + 1)
-            curr_data = self.agent.vehicle_rep.curr_data
-            print_system_status(self.agent, curr_data)
+            # curr_data = self.agent.vehicle_rep.curr_data
+            # print_system_status(self.agent, curr_data)
         else:
             # print_dots(time_step)
             pass
