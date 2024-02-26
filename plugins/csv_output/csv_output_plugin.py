@@ -8,8 +8,8 @@
 # See "NOSA GSC-19165-1 OnAIR.pdf"
 
 from datetime import datetime
+import os
 
-#import numpy as np
 from onair.src.ai_components.ai_plugin_abstract.ai_plugin import AIPlugin
 
 class Plugin(AIPlugin):
@@ -18,10 +18,11 @@ class Plugin(AIPlugin):
 
         # Init some basic parameters, like number of entries for a single file
         self.first_frame = True
-        self.lines_per_file = 500
+        self.lines_per_file = 5
         self.lines_current = 0
         self.current_buffer = [] # List of telemetry points
-        self.filename_preamble = "cf/dl/csv_out_"
+        self.filename_preamble = "so_"
+        self.filename = ""
         self.file = ""
 
 
@@ -65,10 +66,11 @@ class Plugin(AIPlugin):
         if (self.first_frame):
             # Create file- TODO: make separate function
             date_stamp = datetime.today().strftime('%j_%H_%M')
-            file_name = self.filename_preamble + date_stamp + ".csv"
+            self.filename = self.filename_preamble + date_stamp + ".csv"
 
             # Write out to file
-            self.file = open(file_name, 'w')
+            self.file = open(self.filename, 'w')
+            print("Opening: " + str(self.file))
             self.file.write(delimiter.join(self.headers) + '\n')
             self.first_frame = False
 
@@ -80,8 +82,12 @@ class Plugin(AIPlugin):
         if (self.lines_per_file != 0 and self.lines_per_file == self.lines_current):
             # Create new file
             date_stamp = datetime.today().strftime('%j_%H_%M')
+            print("Closing: " + str(self.file))
             self.file.close()
-            file_name = self.filename_preamble + date_stamp + ".csv"
-            self.file = open(file_name, 'w')
+            print("Moving")
+            os.rename(self.filename, "cf/dl/" + self.filename)
+            self.filename = self.filename_preamble + date_stamp + ".csv"
+            self.file = open(self.filename, 'w')
+            print("Opening: " + str(self.file))
 
             self.lines_current = 0
