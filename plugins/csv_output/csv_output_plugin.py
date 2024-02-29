@@ -18,7 +18,7 @@ class Plugin(AIPlugin):
 
         # Init some basic parameters, like number of entries for a single file
         self.first_frame = True
-        self.lines_per_file = 5
+        self.lines_per_file = 500
         self.lines_current = 0
         self.current_buffer = [] # List of telemetry points
         self.filename_preamble = "so_"
@@ -70,7 +70,7 @@ class Plugin(AIPlugin):
 
             # Write out to file
             self.file = open(self.filename, 'w')
-            print("Opening: " + str(self.file))
+            # print("Opening: " + str(self.file))
             self.file.write(delimiter.join(self.headers) + '\n')
             self.first_frame = False
 
@@ -82,12 +82,12 @@ class Plugin(AIPlugin):
         if (self.lines_per_file != 0 and self.lines_per_file == self.lines_current):
             # Create new file
             date_stamp = datetime.today().strftime('%j_%H_%M')
-            print("Closing: " + str(self.file))
+            # print("Closing: " + str(self.file))
             self.file.close()
-            print("Moving")
+            # print("Moving")
             os.rename(self.filename, "cf/dl/" + self.filename)
             self.filename = self.filename_preamble + date_stamp + ".csv"
             self.file = open(self.filename, 'w')
-            print("Opening: " + str(self.file))
+            # print("Opening: " + str(self.file))
 
             self.lines_current = 0
